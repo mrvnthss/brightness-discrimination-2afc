@@ -1,11 +1,11 @@
 
 % PURPOSE: A simple brightness discrimination task
-%  
+% 
 % CONTEXT: Course "Programming for Behavioral and Neurosciences" at
 %          Justus Liebig University Giessen <https://www.uni-giessen.de>
-%
+% 
 % AUTHOR: 2023 Marvin Theiss
-%
+% 
 % LICENSE: MIT License
 % 
 % Copyright (c) 2023 Marvin Theiss
