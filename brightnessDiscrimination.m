@@ -227,7 +227,7 @@ Config.xCenterLeft = floor(Config.xCenter / 2);
 Config.xCenterRight = floor(Config.xCenter / 2 * 3);
 
 % Length of a single side of the squares in pixels (set relative to size of
-% the window so that it scales with different screen sizes
+% the window so that it scales with different screen sizes)
 sizeSquare = floor(Config.width / 4);  % in pixels
 
 % Compute coordinates of both squares
