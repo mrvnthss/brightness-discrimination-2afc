@@ -617,7 +617,7 @@ try
 %       SAVE DATA & SHUT DOWN
 %------------------------------------------------------------------
 
-    writetable(trials, filename, 'Delimiter', ';');
+    writetable(trials, filename, 'Delimiter', ',');
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
@@ -632,7 +632,7 @@ catch errorMessage
     % We indicate that the stored data is incomplete by appending '_ERROR'
     % to the name of the file we save
     filename = strrep(filename, '.csv', '_ERROR.csv');
-    writetable(trials, filename, 'Delimiter', ';');
+    writetable(trials, filename, 'Delimiter', ',');
 
     % Clean up workspace
     clear ans brightnessLeft brightnessRight correctness ...
