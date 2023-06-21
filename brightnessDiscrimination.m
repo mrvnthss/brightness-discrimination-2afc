@@ -363,7 +363,7 @@ filename = upper( ...
 filename = fullfile('data', [filename, '.csv']);
 
 % Make sure that subdirectoy 'data' exists
-if ~exist('data', 'dir')
+if ~isfolder('data', 'dir')
     mkdir data
 end
 
