@@ -94,13 +94,11 @@ else
     Config.screenNumber = max(Config.screens);
 end
 
-% Obtain screen size(s) and assign width and height of chosen screen to
+% Obtain screen size and assign width and height of chosen screen to
 % corresponding fields of the struct 'Config'
-% NOTE: We add 1 to 'Config.screenNumber' because the indexing of screens
-% used by PTB starts at 0 instead of 1!
-screenSizes = get(0, 'MonitorPositions');
-Config.width = screenSizes(Config.screenNumber + 1, 3);
-Config.height = screenSizes(Config.screenNumber + 1, 4);
+screenSize = Screen('Rect', Config.screenNumber);
+Config.width = screenSize(3);
+Config.height = screenSize(4);
 
 % Set 'Config.winRect' according to the value of 'Config.debugMode'.
 % NOTE: If 'Config.debugMode' is set to 'true', we only use 25 % of the
