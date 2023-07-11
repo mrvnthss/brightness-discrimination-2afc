@@ -96,9 +96,7 @@ end
 
 % Obtain screen size and assign width and height of chosen screen to
 % corresponding fields of the struct 'Config'
-screenSize = Screen('Rect', Config.screenNumber);
-Config.width = screenSize(3);
-Config.height = screenSize(4);
+[Config.width, Config.height] = Screen('WindowSize', Config.screenNumber);
 
 % Set 'Config.winRect' according to the value of 'Config.debugMode'.
 % NOTE: If 'Config.debugMode' is set to 'true', we only use 25 % of the
