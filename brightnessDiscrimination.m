@@ -56,7 +56,7 @@ rng('shuffle')
 %------------------------------------------------------------------
 
 % Set number of different brightnesses to use
-% NOTE: This needs to be an odd number! That way, there are as many
+% NOTE: This needs to be an odd number!  That way, there are as many
 % brightnesses brighter than the base brightness as there are
 % brightnesses that are less bright than the base brightness.
 nBrightnesses = 15;
@@ -98,7 +98,7 @@ Duration.fixCrossMaxSecs = 2;    % in secs
 Duration.stimulusSecs = 1;  % in secs
 
 % Set text size and font
-% NOTE: This script was developed on a 16" laptop. For laptops of
+% NOTE: This script was developed on a 16" laptop.  For laptops of
 % different sizes, 'txtSize' will most likely need some adjustment.
 txtSize = 40;
 txtFont = 'Helvetica';
@@ -116,13 +116,13 @@ end
 
 % NOTE: The command "KbName('UnifyKeyNames')" is automatically executed by
 % the command 'PsychDefaultSetup(2)', which is issued within the function
-% 'configurePsych'. The latter is called at the very beginning of this
+% 'configurePsych'.  The latter is called at the very beginning of this
 % script.
 
 % Set keys
 % NOTE: The space bar will be used by participants to start individual
-% trials. To indicate a decision, participants will press either the left
-% arrow key or the right arrow key. Finally, the escape key can be used to
+% trials.  To indicate a decision, participants will press either the left
+% arrow key or the right arrow key.  Finally, the escape key can be used to
 % prematurely end the experiment prior to the start of each trial.
 Key.space = KbName('space');
 Key.leftArrow = KbName('LeftArrow');
@@ -198,7 +198,7 @@ Msg.errorExptAborted = ['The participant has ended the experiment ' ...
 %------------------------------------------------------------------
 
 % Define black and white
-% NOTE: There also exists a Psychtoolbox function 'BlackIndex'. However,
+% NOTE: There also exists a Psychtoolbox function 'BlackIndex'.  However,
 % this function always returns 0, so it doesn't make sense to call it.
 Color.black = 0;
 Color.white = WhiteIndex(Config.screenNumber);
@@ -238,7 +238,7 @@ posRightSquare = CenterRectOnPointd(rectSquare, Config.xCenterRight, ...
     Config.yCenter);
 
 % We set the length of one arm of the fixation cross to 2 % of the window
-% height. This way, it scales with different screen sizes.
+% height.  This way, it scales with different screen sizes.
 fixCrossSize = floor(Config.height * 2 / 100);  % in pixels
 
 % Thickness of the fixation cross
@@ -256,7 +256,7 @@ clear rectSquare sizeSquare
 nTrials = nBrightnesses * nReps;
 
 % Set up a table that stores all information needed to control/conduct the
-% experiment (e.g., which brightness is shown when and where). We also use
+% experiment (e.g., which brightness is shown when and where).  We also use
 % this table to store the participant's responses.
 varNames = ["Order", "ID", "Intensity", "BasePos", "BrightnessDiff", ...
     "DurationFixCross", "Repetition", "Response", "BrightnessJudgement", ...
@@ -288,7 +288,7 @@ trials.BasePos = posOptions(trialPos)';
 
 % Compute brightness differences
 % NOTE: Positive values correspond to trials where the presented brightness
-% is brighter than the base brightness. Negative values correspond to
+% is brighter than the base brightness.  Negative values correspond to
 % trials where the presented brightness is darker than the base brightness.
 trials.BrightnessDiff = round( ...
     trials.Intensity - Brightness.base, 4);

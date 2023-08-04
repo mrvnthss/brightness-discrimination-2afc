@@ -20,15 +20,15 @@ function drawFixationCross(window, fixCrossSize, fixCrossWidth, ...
 %                           in pixels.
 %
 %      color (double) - 1 x 3 vector representing a color in RGB color
-%                       space. Can also be a single value (grayscale).
+%                       space.  Can also be a single value (grayscale).
 %                       Color range is assumed to be the normalized
-%                       floating point number range 0.0 - 1.0. Defaults to
+%                       floating point number range 0.0 - 1.0.  Defaults to
 %                       0 (i.e., black) if not specified.
 %
 %    ASSUMPTIONS & LIMITATIONS
-%      Psychtoolbox (http://psychtoolbox.org) needs to be installed. For
-%      system requirements regarding the use of Psychtoolbox, please check
-%      http://psychtoolbox.org/requirements.html.
+%      Psychtoolbox (http://psychtoolbox.org) needs to be installed.
+%      For system requirements regarding the use of Psychtoolbox, please
+%      check http://psychtoolbox.org/requirements.html.
 
 arguments
     window (1, 1) {mustBeInteger}

@@ -3,31 +3,31 @@ function plotStimuli(nBrightnesses, rangePct, nRows, nCols, whiteIndex)
 
 % PLOTSTIMULI - Visualize different brightness intensities
 %    This MATLAB function can be used to visualize brightness intensities
-%    resulting from different parameter choices in a simple tile plot. This
-%    can be used to get a first idea of how to choose the parameters of the
-%    brightness discrimination experiment.
+%    resulting from different parameter choices in a simple tile plot.
+%    This can be used to get a first idea of how to choose the parameters
+%    of the brightness discrimination experiment.
 %
 %    INPUT ARGUMENTS
 %      nBrightnesses (int) - Number of different brightness intensities.
-%                            Must be a positive integer. Defaults to 15 if
+%                            Must be a positive integer.  Defaults to 15 if
 %                            not specified.
 %
 %      rangePct (double) - Proportion of gray levels to be used from the
-%                          full range from black to white. Must be a
-%                          positive integer no larger than 100. Defaults to
-%                          10 if not specified.
+%                          full range from black to white.  Must be a
+%                          positive integer no larger than 100.  Defaults
+%                          to 10 if not specified.
 %
-%      nRows (int) - Number of rows of the tile plot. Must divide
-%                    'nBrightnesses'. Defaults to 1 if not specified.
+%      nRows (int) - Number of rows of the tile plot.  Must divide
+%                    'nBrightnesses'.  Defaults to 1 if not specified.
 %
-%      nCols (int) - Number of columns of the tile plot. Must divide
-%                    'nBrightnesses'. Defaults to 'nBrightnesses' if not
+%      nCols (int) - Number of columns of the tile plot.  Must divide
+%                    'nBrightnesses'.  Defaults to 'nBrightnesses' if not
 %                    specified.
 %
 %      whiteIndex (double) - Intensity value to produce white at the
 %                            current screen depth, assuming a standard
-%                            color lookup table for that depth. Defaults to
-%                            1 if not specified.
+%                            color lookup table for that depth.  Defaults
+%                            to 1 if not specified.
 %
 %    ASSUMPTIONS & LIMITATIONS
 %      None

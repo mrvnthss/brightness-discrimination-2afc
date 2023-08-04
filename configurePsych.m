@@ -3,20 +3,20 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 
 % CONFIGUREPSYCH - Configure Psychtoolbox parameters
 %    This MATLAB function returns parameters that can be used to set up
-%    Psychtoolbox (PTB) before starting a new experiment. Also, the command
+%    Psychtoolbox (PTB) before starting a new experiment.  Also, the command
 %    'PsychDefaultSetup(2)' is issued to perform a standard setup of PTB.
 %
 %    INPUT ARGUMENTS
-%      whichScreen (char) - Either 'main' or 'max'. Used to set the field
+%      whichScreen (char) - Either 'main' or 'max'.  Used to set the field
 %                           'Config.screenNumber', which can be used to
 %                           specify the screen that PTB ought to open a
-%                           new window on. Defaults to 'main' if not
+%                           new window on.  Defaults to 'main' if not
 %                           specified.
 %
-%      skipTest (int) - Either 0 or 1. Assigned to the field
+%      skipTest (int) - Either 0 or 1.  Assigned to the field
 %                       'Config.skipTest', which can be used to set the
 %                       argument 'SkipSyncTests' when opening a new
-%                       Psychtoolbox window. Defaults to 1 if not
+%                       Psychtoolbox window.  Defaults to 1 if not
 %                       specified.
 %
 %      debugMode (logical) - Given that 'whichScreen' is set to 'main',
@@ -28,8 +28,8 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %                            are computed relative to a window that is
 %                            positioned in the top-left corner of the
 %                            screen, covering only 25 % of the entire
-%                            screen. Does not have any effect if
-%                            'whichScreen' is set to 'max'. Defaults to
+%                            screen.  Does not have any effect if
+%                            'whichScreen' is set to 'max'.  Defaults to
 %                            'false' if not specified.
 %
 %    OUTPUT
@@ -37,9 +37,9 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %                        used to set up a new PTB session.
 %
 %    ASSUMPTIONS & LIMITATIONS
-%      Psychtoolbox (http://psychtoolbox.org) needs to be installed. For
-%      system requirements regarding the use of Psychtoolbox, please check
-%      http://psychtoolbox.org/requirements.html.
+%      Psychtoolbox (http://psychtoolbox.org) needs to be installed.
+%      For system requirements regarding the use of Psychtoolbox, please
+%      check http://psychtoolbox.org/requirements.html.
 
 arguments
     whichScreen char {mustBeMember(whichScreen, {'main', 'max'})} = 'main'
