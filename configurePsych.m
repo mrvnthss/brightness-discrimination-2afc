@@ -16,13 +16,13 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %      skipTest (int) - Either 0 or 1.  Assigned to the field
 %                       'Config.skipTest', which can be used to set the
 %                       argument 'SkipSyncTests' when opening a new
-%                       Psychtoolbox window.  Defaults to 1 if not
-%                       specified.
+%                       PTB window.  Defaults to 1 if not specified.
 %
 %      debugMode (logical) - Given that 'whichScreen' is set to 'main',
 %                            this parameter is used to set the field
-%                            'Config.debugMode', which influences the fields
-%                            'width', 'height', 'winRect', 'xCenter',
+%                            'Config.debugMode', which influences the
+%                            fields 'widthPixels', 'heightPixles',
+%                            'widthMM', 'heightMM' 'winRect', 'xCenter',
 %                            'yCenter' and 'center' of the struct 'Config'.
 %                            If 'debugMode' is set to 'true', these values
 %                            are computed relative to a window that is
@@ -33,7 +33,7 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %                            'false' if not specified.
 %
 %    OUTPUT
-%      Config (struct) - A 1 x 1 struct with 11 fields, whose values can be
+%      Config (struct) - A 1 x 1 struct with fields whose values can be
 %                        used to set up a new PTB session.
 %
 %    ASSUMPTIONS & LIMITATIONS
@@ -96,7 +96,10 @@ end
 
 % Obtain screen size and assign width and height of chosen screen to
 % corresponding fields of the struct 'Config'
-[Config.width, Config.height] = Screen('WindowSize', Config.screenNumber);
+[Config.widthPixels, Config.heightPixels] = Screen( ...
+    'WindowSize', Config.screenNumber);
+[Config.widthMM, Config.heightMM] = Screen( ...
+    'DisplaySize', Config.screenNumber);
 
 % Set 'Config.winRect' according to the value of 'Config.debugMode'.
 % NOTE: If 'Config.debugMode' is set to 'true', we only use 25 % of the
@@ -106,11 +109,13 @@ end
 
 if Config.debugMode
     % Scale with and height down to 50 %
-    Config.width = floor(Config.width * 0.5);
-    Config.height = floor(Config.height * 0.5);
+    Config.widthPixels = floor(Config.widthPixels * 0.5);
+    Config.heightPixels = floor(Config.heightPixels * 0.5);
+    Config.widthMM = Config.widthMM * 0.5;
+    Config.heightMM = Config.heightMM * 0.5;
 
     % Set window rectangle relative to screen's top-left corner
-    Config.winRect = [0, 0, Config.width, Config.height];  % in pixels
+    Config.winRect = [0, 0, Config.widthPixels, Config.heightPixels];
 else
     % Use entire available screen to open window
     Config.winRect = [];
@@ -118,8 +123,8 @@ end
 
 % Obtain center coordinates of the specified window (relative to the
 % window, NOT to the entire screen)
-Config.xCenter = floor(Config.width / 2);
-Config.yCenter = floor(Config.height / 2);
-Config.center = [Config.xCenter, Config.yCenter];
+Config.xCenter = floor(Config.widthPixels / 2);    % in pixels
+Config.yCenter = floor(Config.heightPixels / 2);   % in pixels
+Config.center = [Config.xCenter, Config.yCenter];  % in pixels
 
 end
