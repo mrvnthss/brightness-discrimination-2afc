@@ -228,7 +228,7 @@ Config.xCenterRight = floor(Config.xCenter / 2 * 3);
 
 % Length of a single side of the squares in pixels (set relative to size of
 % the window so that it scales with different screen sizes)
-sizeSquare = floor(Config.width / 4);  % in pixels
+sizeSquare = floor(Config.widthPixels / 4);  % in pixels
 
 % Compute coordinates of both squares
 rectSquare = [0, 0, sizeSquare, sizeSquare];
@@ -239,7 +239,7 @@ posRightSquare = CenterRectOnPointd(rectSquare, Config.xCenterRight, ...
 
 % We set the length of one arm of the fixation cross to 2 % of the window
 % height.  This way, it scales with different screen sizes.
-fixCrossSize = floor(Config.height * 2 / 100);  % in pixels
+fixCrossSize = floor(Config.heightPixels * 2 / 100);  % in pixels
 
 % Thickness of the fixation cross
 fixCrossWidth = 2;  % in pixels
@@ -263,7 +263,7 @@ varNames = ["Order", "ID", "Intensity", "BasePos", "BrightnessDiff", ...
     "Correctness"];
 
 varTypes = ["double", "double", "double", "string", "double", "double", ...
-    "double", "string", "string", "logical"];
+    "double", "string", "string", "double"];
 
 % Preallocate table
 trials = table('Size', [nTrials, length(varNames)], ...
@@ -363,7 +363,7 @@ filename = upper( ...
 filename = fullfile('data', [filename, '.csv']);
 
 % Make sure that subdirectoy 'data' exists
-if ~isfolder('data', 'dir')
+if ~isfolder('data')
     mkdir data
 end
 
