@@ -1,5 +1,5 @@
 
-% PURPOSE: A simple brightness discrimination task
+% PURPOSE: A brightness discrimination experiment (2afc paradigm)
 % 
 % CONTEXT: Course "Programming for Behavioral and Neurosciences" at
 %          Justus Liebig University Giessen <https://www.uni-giessen.de>
