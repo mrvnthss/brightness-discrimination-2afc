@@ -162,6 +162,10 @@ Msg.makeDecision = ['Which square was darker?\n\n' ...
 Msg.progress = ['You have completed %d %% of all trials.\n\n' ...
     'Press space to continue.'];
 
+% Thank-you-message presented at the end of the experiment
+Msg.thankYou = ['You have completed the experiment!\n\n' ...
+    'Thank you for participating!'];
+
 % Error message that is printed to the command window if the participant
 % does not provide any information through the dialog box
 Msg.errorNoInput = ['No participant information was entered into the ' ...
@@ -386,18 +390,19 @@ try
     ListenChar(2);
 
     % Open new PTB window with black background
-    [window, windowRect] = PsychImaging( ...
+    [windowPtr, windowRect] = PsychImaging( ...
         'OpenWindow', Config.screenNumber, Color.black, Config.winRect);
 
     % Hide cursor
     HideCursor(Config.screenNumber);
 
     % Set text size & font
-    Screen('TextSize', window, txtSize);
-    Screen('TextFont', window, txtFont);
+    Screen('TextSize', windowPtr, txtSize);
+    Screen('TextFont', windowPtr, txtFont);
 
     % Enable antialiasing
-    Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    Screen('BlendFunction', windowPtr, ...
+        GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 %------------------------------------------------------------------
@@ -405,10 +410,10 @@ try
 %------------------------------------------------------------------
 
     % Query frame duration
-    Config.ifi = Screen('GetFlipInterval', window);
+    Config.ifi = Screen('GetFlipInterval', windowPtr);
 
     % Set priority to maximum priority
-    Priority(MaxPriority(window));
+    Priority(MaxPriority(windowPtr));
 
     % Convert duration of stimuli being presented from seconds to number of
     % frames
@@ -429,9 +434,9 @@ try
     Progress.stepArray = Progress.stepArray(2:end);
 
     % Present general instructions to participant
-    DrawFormattedText(window, Msg.instructions, 'center', 'center', ...
-        Color.white);
-    Screen('Flip', window);
+    DrawFormattedText(windowPtr, Msg.instructions, ...
+        'center', 'center', Color.white);
+    Screen('Flip', windowPtr);
 
     % Wait for participant to press the space bar to start the first trial
     KbReleaseWait(Config.keyboard);
@@ -456,10 +461,10 @@ try
             Progress.completed = round((iTrial - 1) / nTrials * 100);  % in pct
 
             % Display progress to participant
-            DrawFormattedText(window, ...
+            DrawFormattedText(windowPtr, ...
                 sprintf(Msg.progress, Progress.completed), ...
                 'center', 'center', Color.white)
-            Screen('Flip', window);
+            Screen('Flip', windowPtr);
 
             % Wait for participant to press the space bar to start the
             % next trial
@@ -491,9 +496,9 @@ try
 
         % STEP 2: Wait for participant to start the trial
         %   2.1 Display instructions on how to start the next trial
-        DrawFormattedText(window, Msg.startTrial, ...
+        DrawFormattedText(windowPtr, Msg.startTrial, ...
             'center', 'center', Color.white);
-        Screen('Flip', window);
+        Screen('Flip', windowPtr);
 
         %   2.2 Wait for participant to press the space bar to continue or
         %   to press the escape key to prematurely end the experiment
@@ -513,47 +518,47 @@ try
         %   To do so, we wipe the screen, save a timestamp and then flip
         %   the fixation cross to the screen 0.5 seconds after this
         %   timestamp (see 3.2 below)
-        vbl = Screen('Flip', window);
+        [~, stimulusOnsetTime] = Screen('Flip', windowPtr);
 
 
         % STEP 3: Display fixation cross
         %   3.1 Draw fixation cross at the center of the screen
         %   NOTE: Type 'help drawFixationCross' into the command window
         %   for further information.
-        drawFixationCross(window, fixCrossSize, fixCrossWidth, ...
+        drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
             Config.center, Color.white);
 
         %   3.2 Flip fixation cross to screen
         %   NOTE: We set 'dontclear' (fourth argument) to 1 for
         %   incremental drawing (since we also want the fixation cross
         %   to be displayed when the two squares are presented)
-        vbl = Screen('Flip', window, ...
-            vbl + (Duration.waitFrames - 0.5) * Config.ifi, 1);
+        [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
+            stimulusOnsetTime + (Duration.waitFrames - 0.5) * Config.ifi, 1);
 
 
         % STEP 4: Display squares
         %   4.1 Draw both squares
-        Screen('FillRect', window, brightnessLeft, posLeftSquare);
-        Screen('FillRect', window, brightnessRight, posRightSquare);
+        Screen('FillRect', windowPtr, brightnessLeft, posLeftSquare);
+        Screen('FillRect', windowPtr, brightnessRight, posRightSquare);
 
         %   4.2 Flip squares to screen
-        vbl = Screen('Flip', window, ...
-            vbl + (durationFixCrossFrames - 0.5) * Config.ifi);
+        [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
+            stimulusOnsetTime + (durationFixCrossFrames - 0.5) * Config.ifi);
 
         %   4.3 Wipe screen after the two squares have been presented
         %   for the timespan specified by 'Duration.stimulusFrames'
         %   (in number of frames)
-        vbl = Screen('Flip', window, ...
-            vbl + (Duration.stimulusFrames - 0.5) * Config.ifi);
+        [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
+            stimulusOnsetTime + (Duration.stimulusFrames - 0.5) * Config.ifi);
 
 
         % STEP 5: Wait for participant to make decision
         %   5.1 Display instructions on how to respond after screen has
         %   been left blank for 0.5 seconds
-        DrawFormattedText(window, Msg.makeDecision, ...
+        DrawFormattedText(windowPtr, Msg.makeDecision, ...
             'center', 'center', Color.white);
-        Screen('Flip', window, ...
-            vbl + (Duration.waitFrames - 0.5) * Config.ifi);
+        Screen('Flip', windowPtr, ...
+            stimulusOnsetTime + (Duration.waitFrames - 0.5) * Config.ifi);
 
         %   5.2 Wait for participant to give a valid response (left or
         %   right arrow key)
@@ -607,10 +612,27 @@ try
     end
 
     % Clean up workspace
-    clear ans brightnessLeft brightnessRight correctness ...
+    clear brightnessLeft brightnessRight correctness ...
         durationFixCrossFrames durationFixCrossSecs fixCrossSize ...
         fixCrossWidth iTrial judgement keyCode nTrials posLeftSquare ...
-        posRightSquare response vbl
+        posRightSquare response stimulusOnsetTime
+
+
+%----------------------------------------------------------------------
+%   END OF EXPERIMENT
+%----------------------------------------------------------------------
+
+    % Present thank-you-message to participant
+    WaitSecs(0.5);
+    DrawFormattedText(windowPtr, Msg.thankYou, ...
+        'center', 'center', Color.white);
+    Screen('Flip', windowPtr);
+    WaitSecs(5);
+    Screen('Flip', windowPtr);  % wipe screen before shutting down
+    WaitSecs(0.5);
+
+    % Clean up workspace
+    clear ans
 
 
 %------------------------------------------------------------------
@@ -638,7 +660,7 @@ catch errorMessage
     clear ans brightnessLeft brightnessRight correctness ...
         durationFixCrossFrames durationFixCrossSecs fixCrossSize ...
         fixCrossWidth iTrial judgement keyCode nTrials posLeftSquare ...
-        posRightSquare response vbl
+        posRightSquare response stimulusOnsetTime
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
