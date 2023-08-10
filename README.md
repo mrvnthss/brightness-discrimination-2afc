@@ -12,14 +12,14 @@ The brightness discrimination experiment aims to measure participants' ability t
 
 The flow of a single trial is depicted by the following figure:
 
-<div style="text-align: center">
+<p style="text-align: center">
     <figure>
         <img src="figures/trial-structure.png" alt="trial-structure">
         <figcaption>
             <b>Note:</b> To properly see all parts of the image, you need to use a light theme in GitHub. You can change GitHub's appearance under <i>Settings &rarr; Appearance</i>.
         </figcaption>
     </figure>
-</div>
+</p>
 
 As indicated, the presentation duration of the fixation cross varies between trials to fight fatigue by avoiding perfect timing anticipation due to a rhythmic stimulus-response pattern. For each trial, the duration is sampled randomly from a continuous uniform distribution whose parameters (500 ms and 2,000 ms in the example above) can be chosen by the experimenter.
 
