@@ -86,7 +86,7 @@ Progress.thresholdPct = 20;  % in pct
 
 % Set duration to wait before presenting the fixation cross after the
 % participant has started the trial
-Duration.waitSecs = 0.5;  % in secs
+Duration.waitSecs = 0.25;  % in secs
 
 % The next two parameters set the minimum & maximum duration of the
 % fixation cross prior to the two brightnesses being presented
@@ -95,7 +95,7 @@ Duration.fixCrossMaxSecs = 2;    % in secs
 
 % Set duration of stimuli (i.e., squares of different brightnesses) being
 % presented (constant across trials)
-Duration.stimulusSecs = 1;  % in secs
+Duration.stimulusSecs = 0.2;  % in secs
 
 % Set text size and font
 % NOTE: This script was developed on a 16" laptop.  For laptops of
@@ -437,6 +437,9 @@ try
     DrawFormattedText(windowPtr, Msg.instructions, ...
         'center', 'center', Color.white);
     Screen('Flip', windowPtr);
+
+    % Increase text size by 50 % for rest of experiment
+    Screen('TextSize', windowPtr, 1.5 * txtSize);
 
     % Wait for participant to press the space bar to start the first trial
     KbReleaseWait(Config.keyboard);
