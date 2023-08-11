@@ -15,15 +15,15 @@ The flow of a single trial is depicted by the following figure:
 <p style="text-align: center">
     <figure>
         <img src="figures/trial-structure.png" alt="trial-structure">
-        <figcaption>
+        <figcaption style="text-align: center">
             <b>Note:</b> To properly see all parts of the image, you need to use a light theme in GitHub. You can change GitHub's appearance under <i>Settings &rarr; Appearance</i>.
         </figcaption>
     </figure>
 </p>
 
-As indicated, the presentation duration of the fixation cross varies between trials to fight fatigue by avoiding perfect timing anticipation due to a rhythmic stimulus-response pattern. For each trial, the duration is sampled randomly from a continuous uniform distribution whose parameters (500 ms and 2,000 ms in the example above) can be chosen by the experimenter.
+As indicated, the presentation duration of the fixation cross only varies between trials to fight fatigue by avoiding perfect timing anticipation due to a rhythmic stimulus-response pattern. For each trial, the duration is sampled randomly from a continuous uniform distribution whose parameters (500 ms and 2,000 ms in the example above) can be chosen by the experimenter.
 
-Right now, there is *no* time limit for a response after the stimuli have been presented. Similarly, the time participants take to respond is currently not being collected.
+Right now, there is *no* time limit for a response after the stimuli have been presented. Hence, the time participants take to respond is currently *not* being collected either.
 
 After the experiment is completed, all data is saved to a CSV-file. Code to analyze this data is *not* provided as of now.
 
@@ -59,7 +59,7 @@ cd brightness-discrimination-2afc
 There are several parameters that can easily be changed in the `BrightnessDiscrimination.m` script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
 
 - **Stimulus appearance**
-    + `nBrightnesses`: Sets the number of different brightness levels to use. Ideally, this should be an odd number so that there are as many brightnesses brighter than the base brightness as there are brightnesses that are less bright than the base brightness.
+    + `nBrightnesses`: Sets the number of different brightness levels to use. Ideally, this should be an odd number so that there are as many brightnesses brighter than the base brightness (which is simply the median brightness in this scenario) as there are brightnesses that are less bright than the base brightness.
 
     + `Brightness.rangePct`: Sets the range the brightnesses are to cover (as a fraction of the full range from black to white).
 
@@ -78,7 +78,7 @@ There are several parameters that can easily be changed in the `BrightnessDiscri
 
 ### Configuring Psychtoolbox
 
-The experiment code calls the `configurePsych.m` function to generate a struct called `Config`. The parameters of this struct are then used to set up a new Psychtoolbox session to run the experiment. You can change the way this session is set up by passing the appropriate arguments to the `configurePsych.m` function:
+The experiment code (i.e., the `BrightnessDiscrimination.m` script) calls the `configurePsych.m` function to generate a struct called `Config`. The parameters of this struct are then used to set up a new Psychtoolbox session to run the experiment. You can change the way this session is set up by passing the appropriate arguments to the `configurePsych.m` function:
 
 - `whichScreen`: Either 'main' or 'max'. Passing 'main' will set `Config.screenNumber` to 0, 'max' will set it to `max(Screen('Screens'))` (i.e., screen detected last).
 
