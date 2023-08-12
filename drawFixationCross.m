@@ -1,5 +1,5 @@
 
-function drawFixationCross(window, fixCrossSize, fixCrossWidth, ...
+function drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
     centerCoords, color)
 
 % DRAWFIXATIONCROSS - Draw fixation cross on Psychtoolbox window
@@ -7,8 +7,8 @@ function drawFixationCross(window, fixCrossSize, fixCrossWidth, ...
 %    a specified Psychtoolbox (PTB) window.
 %
 %    INPUT ARGUMENTS
-%      window (int) - Index of the PTB window that the fixation cross ought
-%                     to be drawn on.
+%      windowPtr (int) - Index of the PTB window that the fixation cross
+%                        ought to be drawn on.
 %
 %      fixCrossSize (int) - Length of the arms of the fixation cross in
 %                           pixels.
@@ -31,7 +31,7 @@ function drawFixationCross(window, fixCrossSize, fixCrossWidth, ...
 %      check http://psychtoolbox.org/requirements.html.
 
 arguments
-    window (1, 1) {mustBeInteger}
+    windowPtr (1, 1) {mustBeInteger}
     fixCrossSize (1, 1) {mustBeInteger, mustBePositive}
     fixCrossWidth (1, 1) {mustBeInteger, mustBePositive}
     centerCoords (1, 2) {mustBeInteger, mustBePositive}
@@ -47,6 +47,7 @@ yCoords = [0, 0, -fixCrossSize, fixCrossSize];
 allCoords = [xCoords; yCoords];
 
 % Draw fixation cross
-Screen('DrawLines', window, allCoords, fixCrossWidth, color, centerCoords);
+Screen('DrawLines', windowPtr, allCoords, ...
+    fixCrossWidth, color, centerCoords);
 
 end
