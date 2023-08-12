@@ -163,8 +163,9 @@ Msg.progress = ['You have completed %d %% of all trials.\n\n' ...
     'Press space to continue.'];
 
 % Thank-you-message presented at the end of the experiment
-Msg.thankYou = ['You have completed the experiment!\n\n' ...
-    'Thank you for participating!'];
+Msg.thankYou = ['You have completed the experiment!\n' ...
+    'Thank you for participating!\n\n' ...
+    'This window will close automatically in: %d'];
 
 % Error message that is printed to the command window if the participant
 % does not provide any information through the dialog box
@@ -625,17 +626,24 @@ try
 %   END OF EXPERIMENT
 %----------------------------------------------------------------------
 
-    % Present thank-you-message to participant
-    WaitSecs(0.5);
-    DrawFormattedText(windowPtr, Msg.thankYou, ...
-        'center', 'center', Color.white);
+    % Wipe screen
     Screen('Flip', windowPtr);
-    WaitSecs(5);
-    Screen('Flip', windowPtr);  % wipe screen before shutting down
+    WaitSecs(0.5);
+
+    % Present thank-you-message to participant
+    for secs = 10:-1:1
+        DrawFormattedText(windowPtr, sprintf(Msg.thankYou, secs), ...
+            'center', 'center', Color.white);
+        Screen('Flip', windowPtr);
+        WaitSecs(1);
+    end
+
+    % Wipe screen again before shutting down
+    Screen('Flip', windowPtr);
     WaitSecs(0.5);
 
     % Clean up workspace
-    clear ans
+    clear ans secs
 
 
 %------------------------------------------------------------------
@@ -663,7 +671,7 @@ catch errorMessage
     clear ans brightnessLeft brightnessRight correctness ...
         durationFixCrossFrames durationFixCrossSecs fixCrossSize ...
         fixCrossWidth iTrial judgement keyCode nTrials posLeftSquare ...
-        posRightSquare response stimulusOnsetTime
+        posRightSquare response secs stimulusOnsetTime
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
