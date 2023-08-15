@@ -391,8 +391,8 @@ try
     ListenChar(2);
 
     % Open new PTB window with black background
-    [windowPtr, windowRect] = PsychImaging( ...
-        'OpenWindow', Config.screenNumber, Color.black, Config.winRect);
+    [windowPtr, windowRect] = PsychImaging('OpenWindow', ...
+        Config.screenNumber, Color.black, Config.winRect);
 
     % Hide cursor
     HideCursor(Config.screenNumber);
@@ -402,8 +402,8 @@ try
     Screen('TextFont', windowPtr, txtFont);
 
     % Enable antialiasing
-    Screen('BlendFunction', windowPtr, ...
-        GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    Screen('BlendFunction', ...
+        windowPtr, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 %------------------------------------------------------------------
