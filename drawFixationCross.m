@@ -11,10 +11,10 @@ function drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
 %                        ought to be drawn on.
 %
 %      fixCrossSize (int) - Length of the bars that make up the fixation
-%                           cross in pixels.
+%                           cross in pixels.  Must be positive.
 %
 %      fixCrossWidth (int) - Thickness of the bars that make up the
-%                            fixation cross in pixels.
+%                            fixation cross in pixels.  Must be positive.
 %
 %      centerCoords (int) - Coordinates of the center of the fixation cross
 %                           in pixels.
