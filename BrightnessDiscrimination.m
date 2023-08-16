@@ -242,9 +242,9 @@ posLeftSquare = CenterRectOnPointd(rectSquare, Config.xCenterLeft, ...
 posRightSquare = CenterRectOnPointd(rectSquare, Config.xCenterRight, ...
     Config.yCenter);
 
-% We set the length of one arm of the fixation cross to 2 % of the window
+% We set the length of the bars of the fixation cross to 4 % of the window
 % height.  This way, it scales with different screen sizes.
-fixCrossSize = floor(Config.heightPixels * 2 / 100);  % in pixels
+fixCrossSize = floor(Config.heightPixels * 4 / 100);  % in pixels
 
 % Thickness of the fixation cross
 fixCrossWidth = 2;  % in pixels
@@ -301,9 +301,9 @@ trials.BrightnessDiff = round( ...
 % Randomize the duration that the fixation cross is presented by itself
 % before the two stimuli (i.e., squares of different brightnesses) are
 % shown to the participant
-trials.DurationFixCross = round(Duration.fixCrossMinSecs + ...
-    (Duration.fixCrossMaxSecs - Duration.fixCrossMinSecs) .* ...
-    rand(nTrials, 1), 4);  % in secs
+trials.DurationFixCross = Duration.fixCrossMinSecs + ( ...
+    Duration.fixCrossMaxSecs - Duration.fixCrossMinSecs ...
+    ) .* rand(nTrials, 1);  % in secs
 
 % Sort the table 'trials' by its column 'Order' (which was poulated with
 % the numbers from 1 to 'nTrials' in random order) to achieve a randomized
