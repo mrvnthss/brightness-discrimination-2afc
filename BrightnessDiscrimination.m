@@ -301,7 +301,7 @@ trials.BrightnessDiff = round( ...
 % Randomize the duration that the fixation cross is presented by itself
 % before the two stimuli (i.e., squares of different brightnesses) are
 % shown to the participant
-trials.DurationFixCross = Duration.fixCrossMinSecs + ( ...
+trials.DurationFixCrossSecs = Duration.fixCrossMinSecs + ( ...
     Duration.fixCrossMaxSecs - Duration.fixCrossMinSecs ...
     ) .* rand(nTrials, 1);  % in secs
 
@@ -485,7 +485,7 @@ try
         % STEP 1: Prepare for trial
         %   1.1 Query presentation duration of fixation cross (in secs)
         %   and convert to number of frames
-        durationFixCrossSecs = trials.DurationFixCross(iTrial);
+        durationFixCrossSecs = trials.DurationFixCrossSecs(iTrial);
         durationFixCrossFrames = round(durationFixCrossSecs / Config.ifi);
 
         %   1.2 Assign brightnesses to both squares
@@ -537,7 +537,7 @@ try
         %   incremental drawing (since we also want the fixation cross
         %   to be displayed when the two squares are presented)
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
-            stimulusOnsetTime + (Duration.waitFrames - 0.5) * Config.ifi, 1);
+            stimulusOnsetTime + (Duration.waitFrames-0.5) * Config.ifi, 1);
 
 
         % STEP 4: Display squares
@@ -547,13 +547,13 @@ try
 
         %   4.2 Flip squares to screen
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
-            stimulusOnsetTime + (durationFixCrossFrames - 0.5) * Config.ifi);
+            stimulusOnsetTime + (durationFixCrossFrames-0.5) * Config.ifi);
 
         %   4.3 Wipe screen after the two squares have been presented
         %   for the timespan specified by 'Duration.stimulusFrames'
         %   (in number of frames)
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
-            stimulusOnsetTime + (Duration.stimulusFrames - 0.5) * Config.ifi);
+            stimulusOnsetTime + (Duration.stimulusFrames-0.5) * Config.ifi);
 
 
         % STEP 5: Wait for participant to make decision
@@ -562,7 +562,7 @@ try
         DrawFormattedText(windowPtr, Msg.makeDecision, ...
             'center', 'center', Color.white);
         Screen('Flip', windowPtr, ...
-            stimulusOnsetTime + (Duration.waitFrames - 0.5) * Config.ifi);
+            stimulusOnsetTime + (Duration.waitFrames-0.5) * Config.ifi);
 
         %   5.2 Wait for participant to give a valid response (left or
         %   right arrow key)
