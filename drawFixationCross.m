@@ -10,11 +10,11 @@ function drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
 %      windowPtr (int) - Index of the PTB window that the fixation cross
 %                        ought to be drawn on.
 %
-%      fixCrossSize (int) - Length of the arms of the fixation cross in
-%                           pixels.
+%      fixCrossSize (int) - Length of the bars that make up the fixation
+%                           cross in pixels.
 %
-%      fixCrossWidth (int) - Thickness of the arms of the fixation cross in
-%                            pixels.
+%      fixCrossWidth (int) - Thickness of the bars that make up the
+%                            fixation cross in pixels.
 %
 %      centerCoords (int) - Coordinates of the center of the fixation cross
 %                           in pixels.
@@ -41,13 +41,16 @@ arguments
         } = 0
 end
 
+% Compute size of a single arm of the fixation cross
+singleArmSize = floor(fixCrossSize ./ 2);  % in pixels
+
 % Set up coordinates
-xCoords = [-fixCrossSize, fixCrossSize, 0, 0];
-yCoords = [0, 0, -fixCrossSize, fixCrossSize];
+xCoords = [-singleArmSize, singleArmSize, 0, 0];
+yCoords = [0, 0, -singleArmSize, singleArmSize];
 allCoords = [xCoords; yCoords];
 
 % Draw fixation cross
-Screen('DrawLines', windowPtr, allCoords, ...
-    fixCrossWidth, color, centerCoords);
+Screen('DrawLines', windowPtr, ...
+    allCoords, fixCrossWidth, color, centerCoords);
 
 end
