@@ -31,10 +31,10 @@ function drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
 %      check http://psychtoolbox.org/requirements.html.
 
 arguments
-    windowPtr (1, 1) {mustBeInteger}
-    fixCrossSize (1, 1) {mustBeInteger, mustBePositive}
-    fixCrossWidth (1, 1) {mustBeInteger, mustBePositive}
-    centerCoords (1, 2) {mustBeInteger, mustBePositive}
+    windowPtr (1, 1) double {mustBeInteger}
+    fixCrossSize (1, 1) double {mustBeInteger, mustBePositive}
+    fixCrossWidth (1, 1) double {mustBeInteger, mustBePositive}
+    centerCoords (1, 2) double {mustBeInteger, mustBePositive}
     color (1, 3) double { ...
         mustBeGreaterThanOrEqual(color, 0), ...
         mustBeLessThanOrEqual(color, 1) ...
