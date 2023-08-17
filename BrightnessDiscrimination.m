@@ -39,7 +39,7 @@ clear
 clc
 
 % Perform basic configuration of PTB parameters
-% NOTE: Type 'help configurePsych' into the command window for details on
+% NOTE: Type "help configurePsych" into the command window for details on
 % how to modify this command to fit your needs.
 Config = configurePsych();
 
@@ -467,7 +467,7 @@ try
             % Display progress to participant
             DrawFormattedText(windowPtr, ...
                 sprintf(Msg.progress, Progress.completed), ...
-                'center', 'center', Color.white)
+                'center', 'center', Color.white);
             Screen('Flip', windowPtr);
 
             % Wait for participant to press the space bar to start the
@@ -527,7 +527,7 @@ try
 
         % STEP 3: Display fixation cross
         %   3.1 Draw fixation cross at the center of the screen
-        %   NOTE: Type 'help drawFixationCross' into the command window
+        %   NOTE: Type "help drawFixationCross" into the command window
         %   for further information.
         drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
             Config.center, Color.white);
