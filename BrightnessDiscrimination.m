@@ -124,9 +124,9 @@ end
 % trials.  To indicate a decision, participants will press either the left
 % arrow key or the right arrow key.  Finally, the escape key can be used to
 % prematurely end the experiment prior to the start of each trial.
-Key.space = KbName('space');
-Key.leftArrow = KbName('LeftArrow');
-Key.rightArrow = KbName('RightArrow');
+Key.space = KbName('SPACE');
+Key.leftArrow = KbName('LEFTARROW');
+Key.rightArrow = KbName('RIGHTARROW');
 Key.escape = KbName('ESCAPE');
 
 
