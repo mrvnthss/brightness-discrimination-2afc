@@ -43,7 +43,6 @@ Follow these steps to clone the repository and run the project on your local mac
 
 ```
 git clone https://github.com/mrvnthss/brightness-discrimination-2afc
-cd brightness-discrimination-2afc
 ```
 
 ### Run the Experiment
