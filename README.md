@@ -23,6 +23,7 @@ Additionally, here is a dynamic preview[^1] of the experiment:
 <div align="center">
     <img src="figures/experiment-demo.gif" alt="trial-structure" width="600">
 </div>
+<br>
 
 [^1]: Note that the size of the fixation cross has been increased for demonstration purposes.
 
