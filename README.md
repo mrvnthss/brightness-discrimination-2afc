@@ -6,6 +6,15 @@
 
 This repository contains [MATLAB](#matlab) code for running a brightness discrimination experiment using the Psychtoolbox library.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+- [Configuring the Experiment](#configuring-the-experiment)
+- [References](#references)
+- [Acknowledgments](#acknowledgments)
+- [License](#license)
+
 ## Overview
 
 The brightness discrimination experiment aims to measure participants' ability to perceive differences in brightness between two visual stimuli. To accomplish this, participants are briefly presented with pairs of stimuli and are required to indicate which stimulus appears brighter (2AFC design) via button presses. Participants complete multiple trials (the number of trials can be varied by the experimenter) that are split up into separate blocks. Before the start of each block (except for the first one), participants are informed about their progress. Each trial is started by the participants pressing the space bar.
@@ -57,29 +66,31 @@ git clone https://github.com/mrvnthss/brightness-discrimination-2afc
 
 2. Run the `BrightnessDiscrimination.m` script to start the experiment.
 
-## Details
+## Configuring the Experiment
 
 ### Setting Experiment Parameters
 
 There are several parameters that can be changed in the `BrightnessDiscrimination.m` script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
 
-- **High-level settings**
-    + `nBrightnesses`: Sets the number of different brightness levels to use. Ideally, this should be an odd number so that there are as many brightnesses brighter than the base brightness (which is simply the median brightness in this scenario) as there are brightnesses that are less bright than the base brightness.
+#### High-level settings
+    
+- `nBrightnesses`: Sets the number of different brightness levels to use. Ideally, this should be an odd number so that there are as many brightnesses brighter than the base brightness (which is simply the median brightness in this scenario) as there are brightnesses that are less bright than the base brightness.
 
-    + `Brightness.rangePct`: Sets the range the brightnesses are to cover (as a fraction of the full range from black to white).
+- `Brightness.rangePct`: Sets the range the brightnesses are to cover (as a fraction of the full range from black to white).
 
-    + `nReps`: Determines how often each brightness is shown to the participant.
+- `nReps`: Determines how often each brightness is shown to the participant.
 
-    + `Progress.thresholdPct`: Controls when participants are informed about their progress. Thereby also splitting trials into blocks.
+- `Progress.thresholdPct`: Controls when participants are informed about their progress. Thereby also splitting trials into blocks.
 
-- **Timing parameters**
-    + `Duration.waitSecs`: Controls the delay between the pressing of the space bar to start a trial and the presentation of the fixation cross.
+#### Timing parameters
 
-    + `Duration.fixCrossMinSecs`: First of the two parameters of the continuous uniform distribution that's used to derive the presentation duration of the fixation cross only in each trial.
+- `Duration.waitSecs`: Controls the delay between the pressing of the space bar to start a trial and the presentation of the fixation cross.
 
-    + `Duration.fixCrossMaxSecs`: Second of the two parameters of the continuous uniform distribution that's used to derive the presentation duration of the fixation cross only in each trial.
+- `Duration.fixCrossMinSecs`: First of the two parameters of the continuous uniform distribution that's used to derive the presentation duration of the fixation cross only in each trial.
 
-    + `Duration.stimulusSecs`: Determines presentation duration of the stimuli (i.e., patches of varying brightness).
+- `Duration.fixCrossMaxSecs`: Second of the two parameters of the continuous uniform distribution that's used to derive the presentation duration of the fixation cross only in each trial.
+
+- `Duration.stimulusSecs`: Determines presentation duration of the stimuli (i.e., patches of varying brightness).
 
 ### Configuring Psychtoolbox
 
