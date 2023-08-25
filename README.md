@@ -106,7 +106,7 @@ The experiment code (i.e., the `BrightnessDiscrimination.m` script) calls the `c
 
 - <a id='brainard-ptb'></a> Brainard D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436.
 
-- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D., & Pelli, D. (2007). What’s New in Psychtoolbox-3? *Perception 36*(14).
+- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D., & Pelli, D. (2007). What’s New in Psychtoolbox-3? *Perception, 36*(14).
 
 - <a id='pelli-ptb'></a> Pelli D. G. (1997). The VideoToolbox software for visual psychophysics: transforming numbers into movies. *Spatial vision, 10*(4), 437–442.
 
