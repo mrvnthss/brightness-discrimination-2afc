@@ -327,7 +327,7 @@ for iTrial = 1:nTrials
 end
 
 % Clean up workspace
-clear nReps posOptions trialPos varNames varTypes
+clear posOptions trialPos varNames varTypes
 
 
 %----------------------------------------------------------------------
@@ -401,11 +401,11 @@ end
 t = datetime("now", "Format", "yyyy-MM-dd");
 filePattern = Participant.id + "_" + sprintf('%02d', nBrightnesses) ...
     + "-Lvls_" + sprintf('%02d', Brightness.rangePct) + "-PctRange_" ...
-    + string(t) + "_v%d";
+    + sprintf('%02d', nReps) + '-Reps_' + string(t) + "_v%d";
 filePattern = fullfile("data", filePattern + ".csv");
 
 % Clean up workspace
-clear answer dims dlgtitle identicalSex identicalYoB ...
+clear answer dims dlgtitle identicalSex identicalYoB nReps ...
     prevParticipantData prompt t
 
 
@@ -746,7 +746,7 @@ end
 %----------------------------------------------------------------------
 
 function endExperiment()
-% SHUTDOWN - Turn off character listening and close all open screens
+% ENDEXPERIMENT - Turn off character listening and close all open screens
     ListenChar(0);
     Screen('CloseAll');
 end
