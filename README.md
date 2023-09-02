@@ -105,11 +105,13 @@ The experiment code (i.e., the `BrightnessDiscrimination.m` script) calls the `c
 
 ## References
 
-- <a id='brainard-ptb'></a> Brainard D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436.
+- <a id='brainard-ptb'></a> Brainard D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436. [https://doi.org/10.1163/156856897X00357](https://doi.org/10.1163/156856897X00357)
 
-- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D., & Pelli, D. (2007). What’s New in Psychtoolbox-3? *Perception, 36*(14).
+- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D., & Pelli, D. (2007). What’s new in Psychtoolbox-3? *Perception, 36*(ECVP Abstract Supplement), 14. [https://doi.org/10.1177/03010066070360S101](https://doi.org/10.1177/03010066070360S101)
 
-- <a id='pelli-ptb'></a> Pelli D. G. (1997). The VideoToolbox software for visual psychophysics: transforming numbers into movies. *Spatial vision, 10*(4), 437–442.
+- <a id='pelli-ptb'></a> Pelli D. G. (1997). The VideoToolbox software for visual psychophysics: transforming numbers into movies. *Spatial vision, 10*(4), 437–442. [https://doi.org/10.1163/156856897X00366](https://doi.org/10.1163/156856897X00366)
+
+- <a id='psignifit'></a> Schütt, H. H., Harmeling, S., Macke, J. H., & Wichmann, F. A. (2016). Painfree and accurate Bayesian estimation of psychometric functions for (potentially) overdispersed data. *Vision Research, 122*, 105–123. [https://doi.org/10.1016/j.visres.2016.02.002](https://doi.org/10.1016/j.visres.2016.02.002)
 
 - <a id='matlab'></a> The MathWorks Inc. (2023). MATLAB version: 9.14.0 (R2023a), Natick, Massachusetts: The MathWorks Inc. [https://www.mathworks.com](https://www.mathworks.com)
 
