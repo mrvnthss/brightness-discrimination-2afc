@@ -2,7 +2,9 @@
 % PURPOSE: A brightness discrimination experiment (2afc paradigm)
 % 
 % CONTEXT: Course "Programming for Behavioral and Neurosciences" at
-%          Justus Liebig University Giessen <https://www.uni-giessen.de>
+%          Justus Liebig University Giessen <https://www.uni-giessen.de>.
+%          Modified as part of the seminar "Introduction to Computational
+%          Modelling" at JLU Giessen.
 % 
 % AUTHOR: 2023 Marvin Theiss
 % 
@@ -86,7 +88,7 @@ Progress.thresholdPct = 20;  % in pct
 
 % Set duration to wait before presenting the fixation cross after the
 % participant has started the trial
-Duration.waitSecs = 0.25;  % in secs
+Duration.waitSecs = 0.1;  % in secs
 
 % The next two parameters set the minimum & maximum duration of the
 % fixation cross prior to the two brightnesses being presented
@@ -175,20 +177,27 @@ Msg.errorNoInput = ['No participant information was entered into the ' ...
 % Error message that is printed to the command window if an invalid
 % participant ID was entered into the dialog box that is opened at the
 % beginning of the experiment
-Msg.errorInvalidID = ['Participant ID is not valid, expected an ' ...
-    'integer between 1 and 999!'];
+Msg.errorInvalidID = ...
+    'Participant ID is not valid, expected an integer between 1 and 999!';
 
-% Error message that is printed to the command window if an invalid gender
+% Error message that is printed to the command window if an invalid sex
 % was entered into the dialog box that is opened at the beginning of the
 % experiment
-Msg.errorInvalidGender = ['Participant gender is not valid, expected ' ...
-    'one of m, w, d!'];
+Msg.errorInvalidSex = ...
+    'Participant sex is not valid, expected one of m, w, d!';
 
 % Error message that is printed to the command window if an invalid
-% participant age was entered into the dialog box that is opened at the
+% year of birth was entered into the dialog box that is opened at the
 % beginning of the experiment
-Msg.errorInvalidAge = ['Participant age is not valid, expected a ' ...
-    'positive integer!'];
+Msg.errorInvalidYoB = ...
+    'Participant''s year of birth is not valid, expected a positive integer!';
+
+% Error message that is printed to the command window if a participant ID
+% is chosen that already exists and the entered participant data does not
+% match previously entered data
+Msg.errorInvalidParticipantData = ['Participant data does not match ' ...
+    'previously entered data. Please enter the same data or choose a ' ...
+    'different ID!'];
 
 % Error message that is printed to the command window if participant ends
 % the experiment prematurely
@@ -264,8 +273,8 @@ nTrials = nBrightnesses * nReps;
 % experiment (e.g., which brightness is shown when and where).  We also use
 % this table to store the participant's responses.
 varNames = ["Order", "ID", "Intensity", "BasePos", "BrightnessDiff", ...
-    "DurationFixCross", "Repetition", "Response", "BrightnessJudgement", ...
-    "Correctness"];
+    "DurationFixCrossSecs", "Repetition", "Response", ...
+    "BrightnessJudgement", "Correctness"];
 
 varTypes = ["double", "double", "double", "string", "double", "double", ...
     "double", "string", "string", "double"];
@@ -327,8 +336,8 @@ clear nReps posOptions trialPos varNames varTypes
 
 % Record some basic data of our participant using a dialog box
 prompt = {'Participant ID (1 - 999):', ...
-    'Please enter your gender (m/w/d):', ...
-    'Please enter your age:'};
+    'Please enter your sex (m/w/d):', ...
+    'Please enter your year of birth:'};
 dlgtitle = 'Participant Data';
 dims = [1, 40];
 answer = inputdlg(prompt, dlgtitle, dims);
@@ -340,8 +349,8 @@ end
 
 % Store input in struct 'Participant'
 Participant.id = str2double(answer{1});
-Participant.gender = answer{2};
-Participant.age = str2double(answer{3});
+Participant.sex = upper(answer{2});
+Participant.yob = str2double(answer{3});
 
 % Ensure that the data provided by the participant is valid
 %   a) Check participant ID (expected to be integer between 1 and 999)
@@ -349,31 +358,55 @@ assert(isnumeric(Participant.id) && isreal(Participant.id) && ...
     isfinite(Participant.id) && mod(Participant.id, 1) == 0 && ...
     1 <= Participant.id && Participant.id <= 999, Msg.errorInvalidID);
 
-%   b) Check participant gender (expected to be one of 'm', 'w', 'd')
-assert(ismember(Participant.gender, {'m', 'w', 'd'}), ...
-    Msg.errorInvalidGender);
+%   b) Check participant sex (expected to be one of 'M', 'W', 'D')
+assert(ismember(Participant.sex, {'M', 'W', 'D'}), ...
+    Msg.errorInvalidSex);
 
-%   c) Check participant age (expected to be positive integer)
-assert(isnumeric(Participant.age) && isreal(Participant.age) && ...
-    isfinite(Participant.age) && mod(Participant.age, 1) == 0 && ...
-    Participant.age > 0, Msg.errorInvalidAge);
+%   c) Check participant's year of birth (expected to be positive integer)
+assert(isnumeric(Participant.yob) && isreal(Participant.yob) && ...
+    isfinite(Participant.yob) && mod(Participant.yob, 1) == 0 && ...
+    Participant.yob > 0, Msg.errorInvalidYoB);
 
-% We use the above information to create a unique filename to store the
-% results of the experiment
-Participant.id = sprintf('%03d', Participant.id);
-t = datetime("now", "Format", "MM-dd-yyyy_HHmm");
-filename = upper( ...
-    [Participant.id, '_', Participant.gender, num2str(Participant.age), ...
-    '_', char(t)]);
-filename = fullfile('data', [filename, '.csv']);
+% Convert ID to nicely formatted string (e.g., the number 1 will be
+% converted to the string "001") and store participant data in table
+Participant.id = string(sprintf('%03d', Participant.id));
+participantData = table( ...
+    Participant.id, string(Participant.sex), Participant.yob, ...
+    'VariableNames', ["ID", "Sex", "YearOfBirth"]);
 
-% Make sure that subdirectoy 'data' exists
-if ~isfolder('data')
-    mkdir data
+% Make sure that subdirectoy 'data/participants' exists
+% NOTE: This will also work if the directory 'data' does not yet exist.
+if ~isfolder(fullfile('data', 'participants'))
+    mkdir(fullfile('data', 'participants'))
 end
 
+% Construct filename
+filename = fullfile('data', 'participants', Participant.id + ".csv");
+
+% If participant ID already exists, make sure that entered participant data
+% coincides with previously entered data, else create a new file
+if isfile(filename)
+    prevParticipantData = readtable(filename);
+    identicalSex = strcmp(participantData.Sex, prevParticipantData.Sex);
+    identicalYoB = ...
+        participantData.YearOfBirth == prevParticipantData.YearOfBirth;
+    if ~(identicalSex && identicalYoB)
+        error(Msg.errorInvalidParticipantData);
+    end
+else
+    writetable(participantData, filename, 'Delimiter', ',');
+end
+
+% Create filename to store the results of the experiment
+t = datetime("now", "Format", "yyyy-MM-dd");
+filePattern = Participant.id + "_" + sprintf('%02d', nBrightnesses) ...
+    + "-Lvls_" + sprintf('%02d', Brightness.rangePct) + "-PctRange_" ...
+    + string(t) + "_v%d";
+filePattern = fullfile("data", filePattern + ".csv");
+
 % Clean up workspace
-clear answer dims dlgtitle prompt t
+clear answer dims dlgtitle identicalSex identicalYoB ...
+    prevParticipantData prompt t
 
 
 %----------------------------------------------------------------------
@@ -650,11 +683,25 @@ try
 %       SAVE DATA & SHUT DOWN
 %------------------------------------------------------------------
 
+    % Make sure that filename is unique
+    counter = 1;
+    while true
+        filename = sprintf(filePattern, counter);
+        if ~isfile(filename)
+            break
+        else
+            counter = counter + 1;
+        end
+    end
+
     writetable(trials, filename, 'Delimiter', ',');
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
-    shutDown();
+    endExperiment();
+
+    % Clean up workspace
+    clear counter filePattern
 
 
 %----------------------------------------------------------------------
@@ -662,20 +709,32 @@ try
 %----------------------------------------------------------------------
 
 catch errorMessage
-    % We indicate that the stored data is incomplete by appending '_ERROR'
-    % to the name of the file we save
-    filename = strrep(filename, '.csv', '_ERROR.csv');
+    % Indicate that the collected data is incomplete
+    filePattern = strrep(filePattern, 'data/', 'data/INCOMPLETE_');
+
+    % Make sure that filename is unique
+    counter = 1;
+    while true
+        filename = sprintf(filePattern, counter);
+        if ~isfile(filename)
+            break
+        else
+            counter = counter + 1;
+        end
+    end
+
+    % Save data
     writetable(trials, filename, 'Delimiter', ',');
 
     % Clean up workspace
-    clear ans brightnessLeft brightnessRight correctness ...
-        durationFixCrossFrames durationFixCrossSecs fixCrossSize ...
-        fixCrossWidth iTrial judgement keyCode nTrials posLeftSquare ...
-        posRightSquare response secs stimulusOnsetTime
+    clear ans brightnessLeft brightnessRight correctness counter ...
+        durationFixCrossFrames durationFixCrossSecs filePattern ...
+        fixCrossSize fixCrossWidth iTrial judgement keyCode nTrials ...
+        posLeftSquare posRightSquare response secs stimulusOnsetTime
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
-    shutDown();
+    endExperiment();
 
     % Rethrow error message for debugging purposes
     rethrow(errorMessage);
@@ -686,7 +745,7 @@ end
 %   HELPER FUNCTION(S)
 %----------------------------------------------------------------------
 
-function shutDown()
+function endExperiment()
 % SHUTDOWN - Turn off character listening and close all open screens
     ListenChar(0);
     Screen('CloseAll');
