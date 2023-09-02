@@ -23,9 +23,10 @@ The flow of a single trial is depicted by the following figure:
 
 <div align="center">
     <img src="figures/trial-structure.png" alt="trial-structure" width="800">
-    <p><b>Note:</b> To properly see all parts of the image, you need to use a light theme in GitHub.
-        <br>You can change GitHub's appearance under <i>Settings &rarr; Appearance</i>.</p>
+    <p>Schematic flow of a single trial.<br>
+        Size of stimuli has been increased for demonstration purposes.</p>
 </div>
+<br>
 
 Additionally, here is a dynamic preview[^1] of the experiment:
 
@@ -40,7 +41,7 @@ As indicated, the presentation duration of the fixation cross (prior to the pres
 
 Right now, there is *no* time limit for a response after the stimuli have been presented. Hence, the time participants take to respond is currently *not* being collected either.
 
-After the experiment is completed, all data is saved to a CSV-file. Code to analyze this data is *not* provided as of now.
+After the experiment is completed, all data are saved to a CSV-file. Code to analyze this data is *not* provided as of now.
 
 ## Getting Started
 
