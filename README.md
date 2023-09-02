@@ -35,7 +35,7 @@ Additionally, here is a dynamic preview[^1] of the experiment:
 </div>
 <br>
 
-[^1]: Note that the size of the fixation cross has been increased for demonstration purposes.
+[^1]: The size of the stimuli has been increased for demonstration purposes.
 
 As indicated, the presentation duration of the fixation cross (prior to the presentation of the stimuli) varies between trials to fight fatigue by avoiding perfect timing anticipation due to a rhythmic stimulus-response pattern. For each trial, the duration is sampled randomly from a continuous uniform distribution whose parameters (500 ms and 2,000 ms in the example above) can be chosen by the experimenter.
 
