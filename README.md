@@ -4,7 +4,7 @@
 ![Static Badge](https://img.shields.io/badge/Psychtoolbox-3.0.19-%233464e3)
 ![GitHub](https://img.shields.io/github/license/mrvnthss/brightness-discrimination-2afc?color=%2342ffd1)
 
-This repository contains [MATLAB](#matlab) code for running a brightness discrimination experiment using the Psychtoolbox library.
+This repository contains [MATLAB](#matlab) code to run a brightness discrimination experiment using the [Psychtoolbox](http://psychtoolbox.org/) library. Collected data can be analyzed using the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox developed by Schütt et al. ([2016](#psignifit)).
 
 ## Table of Contents
 
@@ -17,9 +17,17 @@ This repository contains [MATLAB](#matlab) code for running a brightness discrim
 
 ## Overview
 
-The brightness discrimination experiment aims to measure participants' ability to perceive differences in brightness between two visual stimuli. To accomplish this, participants are briefly presented with pairs of stimuli and are required to indicate which stimulus appears brighter (2AFC design) via button presses. Participants complete multiple trials (the number of trials can be varied by the experimenter) that are split up into separate blocks. Before the start of each block (except for the first one), participants are informed about their progress. Each trial is started by the participants pressing the space bar.
+The brightness discrimination experiment provided in this repository is designed to measure participants' ability to perceive differences in brightness between two visual stimuli. To accomplish this, participants are briefly presented with pairs of stimuli and are asked to indicate which stimulus appears darker by pressing a button.
 
-The flow of a single trial is depicted by the following figure:
+### Method of Constant Stimuli
+
+The experiment is conducted using the *method of constant stimuli* (2AFC paradigm). The brightness of one of the two stimuli presented in a trial is constant across all trials of the experiment. On each trial, the position (i.e., left vs. right) of this *comparison stimulus* is randomly determined by a coin flip. The brightness of the remaining stimulus is randomly selected from a predefined set of brightness levels. The brightness of the comparison stimulus, the intensities of the remaining brightness levels, as well as the number thereof, can be chosen by the experimenter (see [Configuring the Experiment](#configuring-the-experiment) for details).
+
+### Flow of the Experiment
+
+Participants complete multiple trials (the number of trials per stimulus level can be varied by the experimenter) that are split up into separate blocks. Before the start of each block (except for the first one), participants are informed about their progress. Each trial is started by the participants pressing the space bar.
+
+The following figure illustrates the flow of a single trial:
 
 <div align="center">
     <img src="figures/trial-structure.png" alt="trial-structure" width="800">
@@ -41,7 +49,7 @@ As indicated, the presentation duration of the fixation cross (prior to the pres
 
 Right now, there is *no* time limit for a response after the stimuli have been presented. Hence, the time participants take to respond is currently *not* being collected either.
 
-After the experiment is completed, all data are saved to a CSV-file. Code to analyze this data is *not* provided as of now.
+After the experiment is completed, all data are saved to a CSV-file. Code to analyze this data will be provided soon.
 
 ## Getting Started
 
@@ -50,6 +58,7 @@ Follow these steps to clone the repository and run the project on your local mac
 ### Prerequisites
 
 - MATLAB with Psychtoolbox installed. Visit [Psychtoolbox](http://psychtoolbox.org/) for installation instructions.
+- Psignifit 4 toolbox installed. Visit [wichmann-lab/psignifit](https://github.com/wichmann-lab/psignifit/wiki/Install) for installation instructions.
 
 ### Clone the repository
 
