@@ -4,7 +4,7 @@
 ![Static Badge](https://img.shields.io/badge/Psychtoolbox-3.0.19-%233464e3)
 ![GitHub](https://img.shields.io/github/license/mrvnthss/brightness-discrimination-2afc?color=%2342ffd1)
 
-This repository contains [MATLAB](#matlab) code to run a brightness discrimination experiment using the [Psychtoolbox](http://psychtoolbox.org/) library. Collected data can be analyzed using the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox developed by Schütt et al. ([2016](#psignifit)).
+This repository contains MATLAB (The MathWorks Inc., [2023](#matlab)) code to run a brightness discrimination experiment using the [Psychtoolbox](http://psychtoolbox.org/) library (Brainard, [1997](#brainard-ptb); Kleiner et al., [2007](#kleiner-ptb); Pelli, [1997](#pelli-ptb)). Collected data can be analyzed using the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox developed by Schütt et al. ([2016](#psignifit)).
 
 ## Table of Contents
 
