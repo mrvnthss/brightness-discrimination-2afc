@@ -1,5 +1,6 @@
 
-% PURPOSE: A brightness discrimination experiment (2afc paradigm)
+% PURPOSE: A brightness discrimination experiment (method of constant
+%          stimuli, 2AFC paradigm)
 % 
 % CONTEXT: Course "Programming for Behavioral and Neurosciences" at
 %          Justus Liebig University Giessen <https://www.uni-giessen.de>.
@@ -57,32 +58,37 @@ rng('shuffle')
 %       CONFIGURATION OF EXPERIMENT
 %------------------------------------------------------------------
 
-% Set number of different brightnesses to use
-% NOTE: This needs to be an odd number!  That way, there are as many
-% brightnesses brighter than the base brightness as there are
-% brightnesses that are less bright than the base brightness.
-nBrightnesses = 15;
+% The experiment is conducted using the method of constant stimuli (2AFC
+% paradigm).  Here, we set the brightness of the standard stimulus, the
+% number of comparison stimuli, and the maximum difference in brightness
+% from standard to comparison stimuli.
+% NOTE: The number of comparison stimuli should be an odd number.  This
+% way, the number of comparison stimuli above and below the value of the
+% standard stimulus are equal.
+% NOTE: The values of the comparison stimuli are chosen in such a way that
+% all of them are separated by equal distances.
+% EXAMPLE: Setting 'Stimuli.standardStim' to 0.5, 'Stimuli.nComparisonStim'
+% to 9, and 'Stimuli.maxDifference' to 0.1 will lead to the following
+% values being used for the comparison stimuli:
+%   [0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6]
+Stimuli.standardStim = 0.5;   % on a scale from 0 to 1
+Stimuli.nComparisonStim = 9;
+Stimuli.maxDifference = 0.1;  % on a scale from 0 to 1
 
-% Set the range the brightnesses are to cover (as a fraction of the full
-% range from black to white)
-% EXAMPLE: By setting 'Brightness.rangePct' to 30, the brightnesses will
-% range from 0.35 to 0.65 as this corresponds to (0.65 - 0.35) / 1 = 30 %
-% of the full range available (assuming that the intensity value of white
-% equals 1 and that of black equals 0).
-Brightness.rangePct = 10;  % in pct
-
-% 'nReps' controls how many times each brightness is shown to the
-% participant
-% NOTE: This needs to be a positive integer!
-nReps = 25;
+% 'nReps' controls how many times each pair of standard & comparison
+% stimulus is shown to the participant
+% NOTE: This should be an even number!  This way, each comparison
+% stimulus can be shown the same number of times to the left and right
+% of the standard stimulus.
+nReps = 50;
 
 % 'Progress.thresholdPct' can be modified to control how often the
 % participant is informed about his/her progress
 % EXAMPLE: By setting 'Progress.thresholdPct' to 20, the participant is
 % informed about his/her progress after 20 %, 40 %, 60 % and 80 % of all
 % trials.
-% NOTE: While this script does work for arbitrary numbers between 1 and 100,
-% the value of 'Progress.thresholdPct' should be chosen reasonably.
+% NOTE: While this script does work for arbitrary numbers between 1 and
+% 100, the value of 'Progress.thresholdPct' should be chosen reasonably.
 % Sensible choices would be 5 %, 10 %, 20 % or 25 %.
 Progress.thresholdPct = 20;  % in pct
 
@@ -91,12 +97,11 @@ Progress.thresholdPct = 20;  % in pct
 Duration.waitSecs = 0.1;  % in secs
 
 % The next two parameters set the minimum & maximum duration of the
-% fixation cross prior to the two brightnesses being presented
+% fixation cross prior to the two stimuli being presented
 Duration.fixCrossMinSecs = 0.5;  % in secs
 Duration.fixCrossMaxSecs = 2;    % in secs
 
-% Set duration of stimuli (i.e., squares of different brightnesses) being
-% presented (constant across trials)
+% Set duration of stimuli being presented (constant across trials)
 Duration.stimulusSecs = 0.2;  % in secs
 
 % Set text size and font
@@ -104,6 +109,10 @@ Duration.stimulusSecs = 0.2;  % in secs
 % different sizes, 'txtSize' will most likely need some adjustment.
 txtSize = 40;
 txtFont = 'Helvetica';
+
+% Set colors used for text and background
+Color.black = 0;
+Color.white = 1;
 
 % If the PTB window is opened in 'debugMode' (i.e., the window only covers
 % 25 % of the screen), we scale down the text size accordingly
@@ -169,6 +178,15 @@ Msg.thankYou = ['You have completed the experiment!\n' ...
     'Thank you for participating!\n\n' ...
     'This window will close automatically in: %d'];
 
+% Error message that is printed to the command window if the number of
+% comparison stimuli is not odd
+Msg.errorStimuli = 'The number of comparison stimuli needs to be odd!';
+
+% Error message that is printed to the command window if the number of
+% repetitions is not even
+Msg.errorRepetitions = ['The number ''nReps'' of repetitions per ' ...
+    'comparison stimulus needs to be even!'];
+
 % Error message that is printed to the command window if the participant
 % does not provide any information through the dialog box
 Msg.errorNoInput = ['No participant information was entered into the ' ...
@@ -211,24 +229,13 @@ Msg.errorExptAborted = ['The participant has ended the experiment ' ...
 %       STIMULI SETUP
 %------------------------------------------------------------------
 
-% Define black and white
-% NOTE: There also exists a Psychtoolbox function 'BlackIndex'.  However,
-% this function always returns 0, so it doesn't make sense to call it.
-Color.black = 0;
-Color.white = WhiteIndex(Config.screenNumber);
-
-% Compute different brightnesses (equal increments between any two
-% consecutive brightnesses)
-Brightness.base = Color.white / 2;
-lowerEnd = Brightness.base - ...
-    (Color.white * Brightness.rangePct / (100 * 2));
-upperEnd = Brightness.base + ...
-    (Color.white * Brightness.rangePct / (100 * 2));
-Brightness.intensityArray = round( ...
-    linspace(lowerEnd, upperEnd, nBrightnesses), 4);
+minComparisonStim = Stimuli.standardStim - Stimuli.maxDifference;
+maxComparisonStim = Stimuli.standardStim + Stimuli.maxDifference;
+Stimuli.comparisonStim = linspace( ...
+    minComparisonStim, maxComparisonStim, Stimuli.nComparisonStim);
 
 % Clean up workspace
-clear lowerEnd upperEnd
+clear maxComparisonStim minComparisonStim
 
 
 %------------------------------------------------------------------
@@ -246,9 +253,9 @@ sizeSquare = floor(Config.widthPixels / 4);  % in pixels
 
 % Compute coordinates of both squares
 rectSquare = [0, 0, sizeSquare, sizeSquare];
-posLeftSquare = CenterRectOnPoint(rectSquare, Config.xCenterLeft, ...
+posLeftStimulus = CenterRectOnPoint(rectSquare, Config.xCenterLeft, ...
     Config.yCenter);
-posRightSquare = CenterRectOnPoint(rectSquare, Config.xCenterRight, ...
+posRightStimulus = CenterRectOnPoint(rectSquare, Config.xCenterRight, ...
     Config.yCenter);
 
 % We set the length of the bars of the fixation cross to 4 % of the window
@@ -266,18 +273,23 @@ clear rectSquare sizeSquare
 %       TRIAL STRUCTURE
 %------------------------------------------------------------------
 
+% Enforce an odd number of comparison stimuli and an even number of
+% repetitions per comparison stimulus
+assert(mod(Stimuli.nComparisonStim, 2) == 1, Msg.errorStimuli);
+assert(mod(nReps, 2) == 0, Msg.errorRepetitions);
+
 % Compute total number of trials
-nTrials = nBrightnesses * nReps;
+nTrials = Stimuli.nComparisonStim * nReps;
 
-% Set up a table that stores all information needed to control/conduct the
-% experiment (e.g., which brightness is shown when and where).  We also use
-% this table to store the participant's responses.
-varNames = ["Order", "ID", "Intensity", "BasePos", "BrightnessDiff", ...
+% Set up a table that stores all information needed to run the experiment
+% (e.g., which brightness is shown when and where).  We also use this table
+% to store the participant's responses.
+varNames = ["Order", "ID", "ComparisonStim", "StandardPos", ...
     "DurationFixCrossSecs", "Repetition", "Response", ...
-    "BrightnessJudgement", "Correctness"];
+    "BrightnessJudgement"];
 
-varTypes = ["double", "double", "double", "string", "double", "double", ...
-    "double", "string", "string", "double"];
+varTypes = ["double", "double", "double", "string", "double", ...
+    "double", "string", "string"];
 
 % Preallocate table
 trials = table('Size', [nTrials, length(varNames)], ...
@@ -287,47 +299,40 @@ trials = table('Size', [nTrials, length(varNames)], ...
 trials.Order = randperm(nTrials)';
 
 % The trial ID is an integer that can be used to uniquely identify the pair
-% of brightnesses shown to the participant
-trials.ID = repmat(1:nBrightnesses, 1, nReps)';
+% of stimuli (i.e., standard & comparison) shown to the participant
+trials.ID = repmat(1:Stimuli.nComparisonStim, 1, nReps)';
 
-% Assign unique brightness to each unique trial ID (from darkest to
-% brightest)
-trials.Intensity = repmat(Brightness.intensityArray, 1, nReps)';
+% Assign unique comparison stimulus to each unique trial ID (from darkest
+% to brightest)
+trials.ComparisonStim = repmat(Stimuli.comparisonStim, 1, nReps)';
 
-% Randomly choose at which side of the screen the base brightness will be
-% presented in each trial
-posOptions = ["left", "right"];
-trialPos = randi(2, nTrials, 1);
-trials.BasePos = posOptions(trialPos)';
-
-% Compute brightness differences
-% NOTE: Positive values correspond to trials where the presented brightness
-% is brighter than the base brightness.  Negative values correspond to
-% trials where the presented brightness is darker than the base brightness.
-trials.BrightnessDiff = round( ...
-    trials.Intensity - Brightness.base, 4);
+% Set position of standard stimulus such that, for each comparison
+% stimulus, the standard stimulus is presented left and right equally often
+halfNTrials = nTrials / 2;
+trials.StandardPos(1:halfNTrials) = "left";
+trials.StandardPos(halfNTrials+1:nTrials) = "right";
 
 % Randomize the duration that the fixation cross is presented by itself
-% before the two stimuli (i.e., squares of different brightnesses) are
-% shown to the participant
+% before the two stimuli are shown to the participant
 trials.DurationFixCrossSecs = Duration.fixCrossMinSecs + ( ...
     Duration.fixCrossMaxSecs - Duration.fixCrossMinSecs ...
     ) .* rand(nTrials, 1);  % in secs
 
-% Sort the table 'trials' by its column 'Order' (which was poulated with
+% Sort the 'trials' table by its 'Order' column (which was poulated with
 % the numbers from 1 to 'nTrials' in random order) to achieve a randomized
 % order of trials
 trials = sortrows(trials, 'Order');
 
-% For each trial, compute how often the brightness shown in that trial has
-% already been shown to the participant (including the current trial)
+% For each trial, compute how often the comparison stimulus shown in that
+% trial has already been shown to the participant (including the current
+% trial)
 for iTrial = 1:nTrials
     trials.Repetition(iTrial) = sum( ...
         trials.ID(1:iTrial) == trials.ID(iTrial));
 end
 
 % Clean up workspace
-clear posOptions trialPos varNames varTypes
+clear halfNTrials posOptions trialPos varNames varTypes
 
 
 %----------------------------------------------------------------------
@@ -399,8 +404,9 @@ end
 
 % Create filename to store the results of the experiment
 t = datetime("now", "Format", "yyyy-MM-dd");
-filePattern = Participant.id + "_" + sprintf('%02d', nBrightnesses) ...
-    + "-Lvls_" + sprintf('%02d', Brightness.rangePct) + "-PctRange_" ...
+filePattern = Participant.id + "_" + sprintf( ...
+    '%02d', Stimuli.nComparisonStim) + "-Stim_" + sprintf( ...
+    '%02d', Stimuli.maxDifference * 100) + "-PctMaxDiff_" ...
     + sprintf('%02d', nReps) + '-Reps_' + string(t) + "_v%d";
 filePattern = fullfile("data", filePattern + ".csv");
 
@@ -521,13 +527,13 @@ try
         durationFixCrossSecs = trials.DurationFixCrossSecs(iTrial);
         durationFixCrossFrames = round(durationFixCrossSecs / Config.ifi);
 
-        %   1.2 Assign brightnesses to both squares
-        if strcmp(trials.BasePos(iTrial), 'left')
-            brightnessLeft = Brightness.base;
-            brightnessRight = trials.Intensity(iTrial);
+        %   1.2 Assign standard & comparison stimuli to correct position
+        if strcmp(trials.StandardPos(iTrial), 'left')
+            stimulusLeft = Stimuli.standardStim;
+            stimulusRight = trials.ComparisonStim(iTrial);
         else
-            brightnessLeft = trials.Intensity(iTrial);
-            brightnessRight = Brightness.base;
+            stimulusLeft = trials.ComparisonStim(iTrial);
+            stimulusRight = Stimuli.standardStim;
         end
 
 
@@ -568,21 +574,21 @@ try
         %   3.2 Flip fixation cross to screen
         %   NOTE: We set 'dontclear' (fourth argument) to 1 for
         %   incremental drawing (since we also want the fixation cross
-        %   to be displayed when the two squares are presented)
+        %   to be displayed when the two stimuli are presented)
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
             stimulusOnsetTime + (Duration.waitFrames-0.5) * Config.ifi, 1);
 
 
-        % STEP 4: Display squares
-        %   4.1 Draw both squares
-        Screen('FillRect', windowPtr, brightnessLeft, posLeftSquare);
-        Screen('FillRect', windowPtr, brightnessRight, posRightSquare);
+        % STEP 4: Display stimuli
+        %   4.1 Draw both stimuli
+        Screen('FillRect', windowPtr, stimulusLeft, posLeftStimulus);
+        Screen('FillRect', windowPtr, stimulusRight, posRightStimulus);
 
         %   4.2 Flip squares to screen
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
             stimulusOnsetTime + (durationFixCrossFrames-0.5) * Config.ifi);
 
-        %   4.3 Wipe screen after the two squares have been presented
+        %   4.3 Wipe screen after the two stimuli have been presented
         %   for the timespan specified by 'Duration.stimulusFrames'
         %   (in number of frames)
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
@@ -614,10 +620,11 @@ try
         %   5.3 Store participant's response
         trials.Response(iTrial) = response;
 
-        %   5.4 Determine whether participant judged the varying brightness
-        %   (i.e., the brightness that is NOT the base brightness) to be
-        %   lighter or darker than the base brightness
-        if strcmp(trials.BasePos(iTrial), 'left')
+        %   5.4 Determine whether participant judged the comparison
+        %   stimulus to be lighter or darker than the standard stimulus
+        %   NOTE: Participants have to indicate which stimulus they
+        %   perceived to be darker!
+        if strcmp(trials.StandardPos(iTrial), 'left')
             if strcmp(response, 'left')
                 judgement = 'brighter';
             else % response = 'right'
@@ -632,27 +639,13 @@ try
         end
 
         trials.BrightnessJudgement(iTrial) = judgement;
-
-        %   5.5 Determine whether participant was correct or not
-        %   NOTE: In case both squares were of the same brightness, we
-        %   set the correctness to NaN, as there is no right or wrong
-        %   answer.
-        if trials.BrightnessDiff(iTrial) < 0 % varying darker than base
-            correctness = strcmp(judgement, 'darker');
-        elseif trials.BrightnessDiff(iTrial) > 0 % varying brighter than base
-            correctness = strcmp(judgement, 'brighter');
-        else % both brightnesses identical
-            correctness = NaN;
-        end
-
-        trials.Correctness(iTrial) = correctness;
     end
 
     % Clean up workspace
-    clear brightnessLeft brightnessRight correctness ...
-        durationFixCrossFrames durationFixCrossSecs fixCrossSize ...
-        fixCrossWidth iTrial judgement keyCode nTrials posLeftSquare ...
-        posRightSquare response stimulusOnsetTime
+    clear stimulusLeft stimulusRight durationFixCrossFrames ...
+        durationFixCrossSecs fixCrossSize fixCrossWidth iTrial ...
+        judgement keyCode nTrials posLeftStimulus posRightStimulus ...
+        response stimulusOnsetTime
 
 
 %----------------------------------------------------------------------
@@ -727,10 +720,10 @@ catch errorMessage
     writetable(trials, filename, 'Delimiter', ',');
 
     % Clean up workspace
-    clear ans brightnessLeft brightnessRight correctness counter ...
-        durationFixCrossFrames durationFixCrossSecs filePattern ...
-        fixCrossSize fixCrossWidth iTrial judgement keyCode nTrials ...
-        posLeftSquare posRightSquare response secs stimulusOnsetTime
+    clear ans stimulusLeft stimulusRight counter durationFixCrossFrames ...
+        durationFixCrossSecs filePattern fixCrossSize fixCrossWidth ...
+        iTrial judgement keyCode nTrials posLeftStimulus ...
+        posRightStimulus response secs stimulusOnsetTime
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
