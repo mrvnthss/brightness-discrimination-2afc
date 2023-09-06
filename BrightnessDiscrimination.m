@@ -8,6 +8,11 @@
 %          Modelling" at JLU Giessen.
 % 
 % AUTHOR: 2023 Marvin Theiss
+%
+% ASSUMPTIONS & LIMITATIONS:
+%   Psychtoolbox (<http://psychtoolbox.org>) needs to be installed.
+%   For system requirements regarding the use of Psychtoolbox, please
+%   check <http://psychtoolbox.org/requirements.html>.
 % 
 % LICENSE: MIT License
 % 

@@ -37,9 +37,9 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %                        used to set up a new PTB session.
 %
 %    ASSUMPTIONS & LIMITATIONS
-%      Psychtoolbox (http://psychtoolbox.org) needs to be installed.
+%      Psychtoolbox (<http://psychtoolbox.org>) needs to be installed.
 %      For system requirements regarding the use of Psychtoolbox, please
-%      check http://psychtoolbox.org/requirements.html.
+%      check <http://psychtoolbox.org/requirements.html>.
  
 % Copyright (c) 2023 Marvin Theiss
 % 

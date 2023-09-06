@@ -13,7 +13,7 @@
 %   For installation instructions, please check
 %   <https://github.com/wichmann-lab/psignifit/wiki/Install>.
 %   The corresponding paper by Schütt et al. (2016) can be found here:
-%   <https://doi.org/10.1016/j.visres.2016.02.002>
+%   <https://doi.org/10.1016/j.visres.2016.02.002>.
 % 
 % LICENSE: MIT License
 % 

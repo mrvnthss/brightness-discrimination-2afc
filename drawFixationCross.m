@@ -26,9 +26,9 @@ function drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
 %                       0 (i.e., black) if not specified.
 %
 %    ASSUMPTIONS & LIMITATIONS
-%      Psychtoolbox (http://psychtoolbox.org) needs to be installed.
+%      Psychtoolbox (<http://psychtoolbox.org>) needs to be installed.
 %      For system requirements regarding the use of Psychtoolbox, please
-%      check http://psychtoolbox.org/requirements.html.
+%      check <http://psychtoolbox.org/requirements.html>.
 
 % Copyright (c) 2023 Marvin Theiss
 % 
