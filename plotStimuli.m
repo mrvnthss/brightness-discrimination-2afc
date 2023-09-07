@@ -1,33 +1,26 @@
 
-function plotStimuli(nBrightnesses, rangePct, nRows, nCols, whiteIndex)
+function plotStimuli(standardStim, nComparisonStim, maxDifference)
 
-% PLOTSTIMULI - Visualize different brightness intensities
-%    This MATLAB function can be used to visualize brightness intensities
+% PLOTSTIMULI - Visualize comparison stimuli
+%    This MATLAB function can be used to visualize the comparison stimuli
 %    resulting from different parameter choices in a simple tile plot.
 %    This can be used to get a first idea of how to choose the parameters
-%    of the brightness discrimination experiment.
+%    for the brightness discrimination experiment.
 %
 %    INPUT ARGUMENTS
-%      nBrightnesses (int) - Number of different brightness intensities.
-%                            Must be a positive integer.  Defaults to 15 if
-%                            not specified.
 %
-%      rangePct (double) - Proportion of gray levels to be used from the
-%                          full range from black to white.  Must be a
-%                          positive integer no larger than 100.  Defaults
-%                          to 10 if not specified.
+%      standardStim (double) - Value of the standard stimulus.  Must be
+%                              between 0 and 1.  Defaults to 0.5 if not
+%                              specified.
 %
-%      nRows (int) - Number of rows of the tile plot.  Must divide
-%                    'nBrightnesses'.  Defaults to 1 if not specified.
+%      nComparisonStim (int) - Number of comparison stimuli. Must be an odd
+%                              integer.  Defaults to 9 if not specified.
 %
-%      nCols (int) - Number of columns of the tile plot.  Must divide
-%                    'nBrightnesses'.  Defaults to 'nBrightnesses' if not
-%                    specified.
-%
-%      whiteIndex (double) - Intensity value to produce white at the
-%                            current screen depth, assuming a standard
-%                            color lookup table for that depth.  Defaults
-%                            to 1 if not specified.
+%      maxDifference (double) - Maximum absolute difference between
+%                               standard and comparison stimuli.  Must be
+%                               greater than 0 and less than or equal to
+%                               'standardStim' and 1 - 'standardStim'.
+%                               Defaults to 0.1 if not specified.
 %
 %    ASSUMPTIONS & LIMITATIONS
 %      None
@@ -53,28 +46,66 @@ function plotStimuli(nBrightnesses, rangePct, nRows, nCols, whiteIndex)
 % SOFTWARE.
 
 arguments
-    nBrightnesses (1, 1) {mustBeInteger, mustBePositive} = 15
-    rangePct (1, 1) double { ...
+    standardStim (1, 1) double { ...
+        mustBeInRange(standardStim, 0, 1, "exclusive")} = 0.5
+    nComparisonStim (1, 1) {mustBeInteger, mustBePositive, mustBeOdd} = 9
+    maxDifference (1, 1) double { ...
         mustBePositive, ...
-        mustBeLessThanOrEqual(rangePct, 100) ...
-        } = 10
-    nRows (1, 1) {mustBeInteger, mustBePositive} = 1
-    nCols (1, 1) {mustBeInteger, mustBePositive} = nBrightnesses
-    whiteIndex (1, 1) {mustBePositive} = 1
+        mustBeValidMaxDiff(maxDifference, standardStim) ...
+        } = 0.1
 end
 
+% Compute values for comparison stimuli (equal increments between any two
+% consecutive values)
+minComparisonStim = standardStim - maxDifference;
+maxComparisonStim = standardStim + maxDifference;
+comparisonStim = linspace( ...
+    minComparisonStim, maxComparisonStim, nComparisonStim);
 
-% Compute different brightnesses (equal increments between any two
-% consecutive brightnesses)
-gray = whiteIndex / 2;
-lowerEnd = gray - (whiteIndex * rangePct / (100 * 2));
-upperEnd = gray + (whiteIndex * rangePct / (100 * 2));
-brightnesses = round(linspace(lowerEnd, upperEnd, nBrightnesses), 4);
+% Modify 'comparisonStim' vector for visualization purposes
+nRows = (nComparisonStim-1) / 2;
+comparisonStim = [comparisonStim(1:nRows), ...
+    standardStim*ones(1, nRows), ...
+    flip(comparisonStim(nRows+2:end))];
 
 % Create a grayscale image using the selected brightnesses
-image = reshape(brightnesses, nRows, nCols);
+image = reshape(comparisonStim, nRows, 3);
+image = repelem(image, 100, 100);
 
 % Display the grayscale image
 imshow(image);
+
+end
+
+
+%------------------------------------------------------------------
+%   CUSTOM VALIDATION FUNCTIONS
+%------------------------------------------------------------------
+
+% NOTE: The function 'mustBeOdd' assumes that the input 'value' is a
+% positive integer.
+function mustBeOdd(value)
+% MUSTBEODD - Validate that value is an odd number
+isOdd = mod(value, 2) == 1;
+
+if ~isOdd
+    eidType = 'mustBeOdd:notOdd';
+    msgType = 'Value is not odd.';
+    throwAsCaller(MException(eidType, msgType));
+end
+
+
+end
+
+function mustBeValidMaxDiff(maxDifference, standardStim)
+% MUSTBEVALIDMAXDIFF - Validate that maxDifference is chosen appropriately
+isValid = maxDifference <= min(standardStim, 1-standardStim);
+
+if ~isValid
+    eidType = 'mustBeValidMaxDiff:notValidMaxDiff';
+    msgType = ['Value of ''maxDifference'' must be less than ' ...
+        '''standardStim'' and 1-''standardStim''.'];
+    throwAsCaller(MException(eidType, msgType));
+end
 
 end
