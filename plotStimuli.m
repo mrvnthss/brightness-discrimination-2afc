@@ -94,8 +94,8 @@ if ~isOdd
     throwAsCaller(MException(eidType, msgType));
 end
 
-
 end
+
 
 function mustBeValidMaxDiff(maxDifference, standardStim)
 % MUSTBEVALIDMAXDIFF - Validate that maxDifference is chosen appropriately
