@@ -21,11 +21,25 @@ The brightness discrimination experiment provided in this repository is designed
 
 ### Method of Constant Stimuli
 
-The experiment is conducted using the *method of constant stimuli* (2AFC paradigm). The brightness of one of the two stimuli presented in a trial is constant across all trials of the experiment. On each trial, the position (i.e., left vs. right) of this *comparison stimulus* is randomly determined by a coin flip. The brightness of the remaining stimulus is randomly selected from a predefined set of brightness levels. The brightness of the comparison stimulus, the intensities of the remaining brightness levels, as well as the number thereof, can be chosen by the experimenter (see [Configuring the Experiment](#configuring-the-experiment) for details).
+The experiment is conducted using the *method of constant stimuli* (2AFC paradigm) as described in Chapter 3 of Gescheider ([1997](#gescheider)). The brightness of one of the two stimuli presented is constant across all trials of the experiment. This stimulus is referred to as the *standard stimulus*. On each trial, this standard stimulus is presented together with another stimulus, the *comparison stimulus*, which is sometimes brighter than, sometimes darker than, and sometimes equally bright as the standard stimulus. The order of presentation of the comparison stimuli is randomized. The following values can be chosen by the experimenter (please check [Configuring the Experiment](#configuring-the-experiment) for details):
+
+- brightness of the standard stimulus,
+- number of comparison stimuli,
+- maximum absolute difference between standard and comparison stimuli, and
+- number of times each comparison stimulus is paired with the standard stimulus.
+
+The `assert` function is used in the `BrightnessDiscrimination.m` script to enforce that ...
+
+- the number of comparison stimuli is *odd*, and
+- the number of repetitions per comparison stimulus is *even*.
+
+The first precaution ensures that there are as many comparison stimuli that are brighter than the standard as there are comparison stimuli that are darker than the standard. The second precaution allows the spatial location of the standard stimulus to be counterbalanced across trials.
+
+Additionally, the values of the comparison stimuli should be "chosen so that the stimulus of greatest magnitude is almost always judged greater than the standard, and so that the stimulus of least magnitude is almost always judged less than the standard" (Gescheider, [1997](#gescheider)). In the context of brightness discrimination, "greater" means "brighter" and "less" means "darker". To achieve this desired result, the maximum absolute difference between the standard and comparison stimuli must be set appropriately by the experimenter (again, please see [Configuring the Experiment](#configuring-the-experiment) for details). To assist in choosing this value, the `plotStimuli.m` function can be used to visualize the comparison stimuli based on the parameters chosen to (potentially) run the experiment.
 
 ### Flow of the Experiment
 
-Participants complete multiple trials (the number of trials per stimulus level can be varied by the experimenter) that are split up into separate blocks. Before the start of each block (except for the first one), participants are informed about their progress. Each trial is started by the participants pressing the space bar.
+Participants complete multiple trials that are split up into separate blocks. Before the start of each block (except for the first one), participants are informed about their progress. Each trial is started by the participants pressing the space bar.
 
 The following figure illustrates the flow of a single trial:
 
@@ -58,7 +72,7 @@ Follow these steps to clone the repository and run the project on your local mac
 ### Prerequisites
 
 - MATLAB with Psychtoolbox installed. Visit [Psychtoolbox](http://psychtoolbox.org/) for installation instructions.
-- Psignifit 4 toolbox installed. Visit [wichmann-lab/psignifit](https://github.com/wichmann-lab/psignifit/wiki/Install) for installation instructions.
+- Psignifit 4 toolbox installed. Visit [wichmann-lab/psignifit/wiki/Install](https://github.com/wichmann-lab/psignifit/wiki/Install) for installation instructions.
 
 ### Clone the repository
 
@@ -80,17 +94,17 @@ git clone https://github.com/mrvnthss/brightness-discrimination-2afc
 
 ### Setting Experiment Parameters
 
-There are several parameters that can be changed in the `BrightnessDiscrimination.m` script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
+As mentioned before, there are several parameters that can be changed in the `BrightnessDiscrimination.m` script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
 
-#### High-level settings
-    
-- `nBrightnesses`: Sets the number of different brightness levels to use. Ideally, this should be an odd number so that there are as many brightnesses brighter than the base brightness (which is simply the median brightness in this scenario) as there are brightnesses that are less bright than the base brightness.
+#### Experimental Design
 
-- `Brightness.rangePct`: Sets the range the brightnesses are to cover (as a fraction of the full range from black to white).
+- `Stimuli.standardStim`: Sets the value of the standard stimulus.
 
-- `nReps`: Determines how often each brightness is shown to the participant.
+- `Stimuli.nComparisonStim`: Defines the number of comparison stimuli. As explained earlier, this must be an odd number to ensure that the number of comparison stimuli that are brighter than the standard is equal to the number of comparison stimuli that are darker than the standard.
 
-- `Progress.thresholdPct`: Controls when participants are informed about their progress. Thereby also splitting trials into blocks.
+- `Stimuli.maxDifference`: Together with the value of the standard stimulus, this setting is used to derive the values of all comparison stimuli in the experiment.
+
+- `nReps`: Determines how often each pair of comparison stimulus and standard stimulus is shown to the participant. This must be an even number to allow for counterbalancing of the spatial location of the standard stimulus.
 
 #### Timing parameters
 
@@ -100,7 +114,11 @@ There are several parameters that can be changed in the `BrightnessDiscriminatio
 
 - `Duration.fixCrossMaxSecs`: Second of the two parameters of the continuous uniform distribution that's used to derive the presentation duration of the fixation cross only in each trial.
 
-- `Duration.stimulusSecs`: Determines presentation duration of the stimuli (i.e., patches of varying brightness).
+- `Duration.stimulusSecs`: Determines presentation duration of the stimuli.
+
+#### Other
+
+- `Progress.thresholdPct`: Controls when (i.e., after which fraction of total trials) participants are informed about their progress. Thereby also splitting trials into blocks.
 
 ### Configuring Psychtoolbox
 
@@ -114,11 +132,13 @@ The experiment code (i.e., the `BrightnessDiscrimination.m` script) calls the `c
 
 ## References
 
-- <a id='brainard-ptb'></a> Brainard D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436. [https://doi.org/10.1163/156856897X00357](https://doi.org/10.1163/156856897X00357)
+- <a id='brainard-ptb'></a> Brainard, D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436. [https://doi.org/10.1163/156856897X00357](https://doi.org/10.1163/156856897X00357)
 
-- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D., & Pelli, D. (2007). What’s new in Psychtoolbox-3? *Perception, 36*(ECVP Abstract Supplement), 14. [https://doi.org/10.1177/03010066070360S101](https://doi.org/10.1177/03010066070360S101)
+- <a id='gescheider'></a> Gescheider, G. A. (1997). *Psychophysics: The fundamentals* (3rd ed.). Lawrence Erlbaum Associates, Inc.
 
-- <a id='pelli-ptb'></a> Pelli D. G. (1997). The VideoToolbox software for visual psychophysics: transforming numbers into movies. *Spatial vision, 10*(4), 437–442. [https://doi.org/10.1163/156856897X00366](https://doi.org/10.1163/156856897X00366)
+- <a id='kleiner-ptb'></a> Kleiner, M., Brainard, D. H., & Pelli, D. G. (2007). What’s new in Psychtoolbox-3? *Perception, 36*(ECVP Abstract Supplement), 14. [https://doi.org/10.1177/03010066070360S101](https://doi.org/10.1177/03010066070360S101)
+
+- <a id='pelli-ptb'></a> Pelli, D. G. (1997). The VideoToolbox software for visual psychophysics: transforming numbers into movies. *Spatial vision, 10*(4), 437–442. [https://doi.org/10.1163/156856897X00366](https://doi.org/10.1163/156856897X00366)
 
 - <a id='psignifit'></a> Schütt, H. H., Harmeling, S., Macke, J. H., & Wichmann, F. A. (2016). Painfree and accurate Bayesian estimation of psychometric functions for (potentially) overdispersed data. *Vision Research, 122*, 105–123. [https://doi.org/10.1016/j.visres.2016.02.002](https://doi.org/10.1016/j.visres.2016.02.002)
 
