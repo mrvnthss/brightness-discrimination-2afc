@@ -80,12 +80,12 @@ Stimuli.standardStim = 0.5;   % on a scale from 0 to 1
 Stimuli.nComparisonStim = 9;
 Stimuli.maxDifference = 0.1;  % on a scale from 0 to 1
 
-% 'nReps' controls how many times each pair of standard & comparison
-% stimulus is shown to the participant
-% NOTE: This should be an even number!  This way, each comparison
+% 'Stimuli.nReps' controls how many times each pair of standard &
+% comparison stimulus is shown to the participant
+% NOTE: This must be an even number!  This way, each comparison
 % stimulus can be shown the same number of times to the left and right
 % of the standard stimulus.
-nReps = 50;
+Stimuli.nReps = 50;
 
 % 'Progress.thresholdPct' can be modified to control how often the
 % participant is informed about his/her progress
@@ -189,8 +189,8 @@ Msg.errorStimuli = 'The number of comparison stimuli needs to be odd!';
 
 % Error message that is printed to the command window if the number of
 % repetitions is not even
-Msg.errorRepetitions = ['The number ''nReps'' of repetitions per ' ...
-    'comparison stimulus needs to be even!'];
+Msg.errorRepetitions = ['The number ''Stimuli.nReps'' of repetitions ' ...
+    'per comparison stimulus needs to be even!'];
 
 % Error message that is printed to the command window if the participant
 % does not provide any information through the dialog box
@@ -281,10 +281,10 @@ clear rectSquare sizeSquare
 % Enforce an odd number of comparison stimuli and an even number of
 % repetitions per comparison stimulus
 assert(mod(Stimuli.nComparisonStim, 2) == 1, Msg.errorStimuli);
-assert(mod(nReps, 2) == 0, Msg.errorRepetitions);
+assert(mod(Stimuli.nReps, 2) == 0, Msg.errorRepetitions);
 
 % Compute total number of trials
-nTrials = Stimuli.nComparisonStim * nReps;
+nTrials = Stimuli.nComparisonStim * Stimuli.nReps;
 
 % Set up a table that stores all information needed to run the experiment
 % (e.g., which brightness is shown when and where).  We also use this table
@@ -305,11 +305,11 @@ trials.Order = randperm(nTrials)';
 
 % The trial ID is an integer that can be used to uniquely identify the pair
 % of stimuli (i.e., standard & comparison) shown to the participant
-trials.ID = repmat(1:Stimuli.nComparisonStim, 1, nReps)';
+trials.ID = repmat(1:Stimuli.nComparisonStim, 1, Stimuli.nReps)';
 
 % Assign unique comparison stimulus to each unique trial ID (from darkest
 % to brightest)
-trials.ComparisonStim = repmat(Stimuli.comparisonStim, 1, nReps)';
+trials.ComparisonStim = repmat(Stimuli.comparisonStim, 1, Stimuli.nReps)';
 
 % Set position of standard stimulus such that, for each comparison
 % stimulus, the standard stimulus is presented left and right equally often
@@ -413,11 +413,11 @@ filePattern = Participant.id + "_" ...
     + sprintf('%02dSt_', Stimuli.standardStim * 100) ...
     + sprintf('%02dnCo_', Stimuli.nComparisonStim) ...
     + sprintf('%02dMaxDiff_', Stimuli.maxDifference * 100) ...
-    + sprintf('%02dReps_', nReps) + string(t) + "_v%d";
+    + sprintf('%02dReps_', Stimuli.nReps) + string(t) + "_v%d";
 filePattern = fullfile("data", filePattern + ".csv");
 
 % Clean up workspace
-clear answer dims dlgtitle identicalSex identicalYoB nReps ...
+clear answer dims dlgtitle identicalSex identicalYoB ...
     prevParticipantData prompt t
 
 
