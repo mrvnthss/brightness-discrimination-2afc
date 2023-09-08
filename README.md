@@ -33,9 +33,16 @@ The `assert` function is used in the `BrightnessDiscrimination.m` script to enfo
 - the number of comparison stimuli is *odd*, and
 - the number of repetitions per comparison stimulus is *even*.
 
-The first precaution ensures that there are as many comparison stimuli that are brighter than the standard as there are comparison stimuli that are darker than the standard. The second precaution allows the spatial location of the standard stimulus to be counterbalanced across trials.
+The first precaution ensures that there are as many comparison stimuli that are brighter than the standard as there are comparison stimuli that are darker than the standard. The second precaution allows the spatial location of the standard stimulus to be counterbalanced across trials "to control for the effects of the *space error*" (Gescheider, [1997](#gescheider)).
 
-Additionally, the values of the comparison stimuli should be "chosen so that the stimulus of greatest magnitude is almost always judged greater than the standard, and so that the stimulus of least magnitude is almost always judged less than the standard" (Gescheider, [1997](#gescheider)). In the context of brightness discrimination, "greater" means "brighter" and "less" means "darker". To achieve this desired result, the maximum absolute difference between the standard and comparison stimuli must be set appropriately by the experimenter (again, please see [Configuring the Experiment](#configuring-the-experiment) for details). To assist in choosing this value, the `plotStimuli.m` function can be used to visualize the comparison stimuli based on the parameters chosen to (potentially) run the experiment.
+Additionally, the values of the comparison stimuli should be "chosen so that the stimulus of greatest magnitude is almost always judged greater than the standard, and so that the stimulus of least magnitude is almost always judged less than the standard" (Gescheider, [1997](#gescheider)). In the context of brightness discrimination, "greater" means "brighter" and "less" means "darker". To achieve this desired result, the maximum absolute difference between the standard and comparison stimuli must be set appropriately by the experimenter (again, please see [Configuring the Experiment](#configuring-the-experiment) for details). To assist in choosing this value, the `plotStimuli.m` function can be used to visualize the comparison stimuli based on the parameters chosen to (potentially) run the experiment. The next figure shows a sample output produced by the `plotStimuli.m` function:
+
+<div align="center">
+    <img src="figures/comparison-stimuli.png" alt="comparison-stimuli" width="600">
+</div>
+<br>
+
+The top and bottom rows represent the brightness intensity of the standard stimulus. The comparison stimuli are shown in the middle row with increasing brightness from left to right.
 
 ### Flow of the Experiment
 
@@ -53,7 +60,7 @@ The following figure illustrates the flow of a single trial:
 Additionally, here is a dynamic preview[^1] of the experiment:
 
 <div align="center">
-    <img src="figures/experiment-demo.gif" alt="trial-structure" width="600">
+    <img src="figures/experiment-demo.gif" alt="trial-structure" width="700">
 </div>
 <br>
 
