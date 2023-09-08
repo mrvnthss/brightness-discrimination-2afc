@@ -40,7 +40,7 @@ function Config = configurePsych(whichScreen, skipTest, debugMode)
 %      Psychtoolbox (<http://psychtoolbox.org>) needs to be installed.
 %      For system requirements regarding the use of Psychtoolbox, please
 %      check <http://psychtoolbox.org/requirements.html>.
- 
+
 % Copyright (c) 2023 Marvin Theiss
 % 
 % Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -146,5 +146,11 @@ end
 Config.xCenter = floor(Config.widthPixels / 2);    % in pixels
 Config.yCenter = floor(Config.heightPixels / 2);   % in pixels
 Config.center = [Config.xCenter, Config.yCenter];  % in pixels
+
+% Compute pixels per mm
+% NOTE: Theoretically, the two ratios we compute below should be identical.
+% In practice, they're not.  So we simply take the mean of the two.
+Config.pixelsPerMM = mean([Config.widthPixels / Config.widthMM, ...
+                    Config.heightPixels / Config.heightMM]);
 
 end
