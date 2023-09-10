@@ -87,16 +87,6 @@ Stimuli.maxDifference = 0.1;  % on a scale from 0 to 1
 % of the standard stimulus.
 Stimuli.nReps = 50;
 
-% 'Progress.thresholdPct' can be modified to control how often the
-% participant is informed about his/her progress
-% EXAMPLE: By setting 'Progress.thresholdPct' to 20, the participant is
-% informed about his/her progress after 20 %, 40 %, 60 % and 80 % of all
-% trials.
-% NOTE: While this script does work for arbitrary numbers between 1 and
-% 100, the value of 'Progress.thresholdPct' should be chosen reasonably.
-% Sensible choices would be 5 %, 10 %, 20 % or 25 %.
-Progress.thresholdPct = 20;  % in pct
-
 % Set duration to wait before presenting the fixation cross after the
 % participant has started the trial
 Duration.waitSecs = 0.1;  % in secs
@@ -108,6 +98,25 @@ Duration.fixCrossMaxSecs = 2;    % in secs
 
 % Set duration of stimuli being presented (constant across trials)
 Duration.stimulusSecs = 0.2;  % in secs
+
+% (Orthogonal) distance from eye to screen in mm
+% NOTE: This depends heavily on the setup (chair, desk, laptop vs. external
+% monitor, etc.) that's being used.  With my setup, I measured the
+% following distances (using a height-adjustable desk and desk chair that
+% are properly adjusted to me):
+%   - w/ laptop screen (MacBook Pro 16"): 550 mm
+%   - w/ external monitor (Dell U4021QW 40" attached to Ergotron HX): 650 mm
+viewingDistanceMM = 550;  % in mm
+
+% 'Progress.thresholdPct' can be modified to control how often the
+% participant is informed about his/her progress
+% EXAMPLE: By setting 'Progress.thresholdPct' to 20, the participant is
+% informed about his/her progress after 20 %, 40 %, 60 % and 80 % of all
+% trials.
+% NOTE: While this script does work for arbitrary numbers between 1 and
+% 100, the value of 'Progress.thresholdPct' should be chosen reasonably.
+% Sensible choices would be 5 %, 10 %, 20 % or 25 %.
+Progress.thresholdPct = 20;  % in pct
 
 % Set text size and font
 % NOTE: This script was developed on a 16" laptop.  For laptops of
@@ -263,15 +272,16 @@ posLeftStimulus = CenterRectOnPoint(rectSquare, Config.xCenterLeft, ...
 posRightStimulus = CenterRectOnPoint(rectSquare, Config.xCenterRight, ...
     Config.yCenter);
 
-% We set the length of the bars of the fixation cross to 4 % of the window
-% height.  This way, it scales with different screen sizes.
-fixCrossSize = floor(Config.heightPixels * 4 / 100);  % in pixels
+% Set size and thickness of the fixation cross
+fixCrossVA = 0.65;   % in degrees of visual angle
+FixCross.width = 2;  % in pixels
 
-% Thickness of the fixation cross
-fixCrossWidth = 2;  % in pixels
+% Convert size of fixation cross from degrees of visual angle to pixels
+FixCross.size = round(visualAngleToSize( ...
+    fixCrossVA, viewingDistanceMM) * Config.pixelsPerMM);  % in pixels
 
 % Clean up workspace
-clear rectSquare sizeSquare
+clear fixCrossVA rectSquare sizeSquare
 
 
 %------------------------------------------------------------------
@@ -574,7 +584,7 @@ try
         %   3.1 Draw fixation cross at the center of the screen
         %   NOTE: Type "help drawFixationCross" into the command window
         %   for further information.
-        drawFixationCross(windowPtr, fixCrossSize, fixCrossWidth, ...
+        drawFixationCross(windowPtr, FixCross.size, FixCross.width, ...
             Config.center, Color.white);
 
         %   3.2 Flip fixation cross to screen
@@ -649,9 +659,8 @@ try
 
     % Clean up workspace
     clear stimulusLeft stimulusRight durationFixCrossFrames ...
-        durationFixCrossSecs fixCrossSize fixCrossWidth iTrial ...
-        judgement keyCode nTrials posLeftStimulus posRightStimulus ...
-        response stimulusOnsetTime
+        durationFixCrossSecs iTrial judgement keyCode nTrials ...
+        posLeftStimulus posRightStimulus response stimulusOnsetTime
 
 
 %----------------------------------------------------------------------
@@ -727,9 +736,9 @@ catch errorMessage
 
     % Clean up workspace
     clear ans stimulusLeft stimulusRight counter durationFixCrossFrames ...
-        durationFixCrossSecs filePattern fixCrossSize fixCrossWidth ...
-        iTrial judgement keyCode nTrials posLeftStimulus ...
-        posRightStimulus response secs stimulusOnsetTime
+        durationFixCrossSecs filePattern iTrial judgement keyCode ...
+        nTrials posLeftStimulus posRightStimulus response secs ...
+        stimulusOnsetTime
 
     % Turn off character listening, re-enable keyboard input and close all
     % open screens
