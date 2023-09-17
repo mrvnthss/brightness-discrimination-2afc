@@ -78,7 +78,7 @@ rng('shuffle')
 %   [0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6]
 Stimuli.standardStim = 0.5;   % on a scale from 0 to 1
 Stimuli.nComparisonStim = 9;
-Stimuli.maxDifference = 0.1;  % on a scale from 0 to 1
+Stimuli.maxDifference = 0.025;  % on a scale from 0 to 1
 
 % 'Stimuli.nReps' controls how many times each pair of standard &
 % comparison stimulus is shown to the participant
@@ -170,7 +170,7 @@ Msg.instructions = [ ...
     '3.) Two squares will appear on the screen (left and right to the\n' ...
     'cross). Keep fixating the cross in the center of the screen.\n\n' ...
     '4.) Both squares and the fixation cross will vanish.\n\n' ...
-    '5.) You are asked to judge which square was darker. Press the left\n' ...
+    '5.) You are asked to judge which square was brighter. Press the left\n' ...
     'arrow key for the left square or the right arrow key for the right ' ...
     'square.\n\n' ...
     'Press space to continue.'];
@@ -180,7 +180,7 @@ Msg.startTrial = 'Press space to start the trial.';
 
 % Message to be displayed after the stimuli have been presented and the
 % participant is asked to make a judgement
-Msg.makeDecision = ['Which square was darker?\n\n' ...
+Msg.makeDecision = ['Which square was brighter?\n\n' ...
     'Left or right?'];
 
 % Message to be displayed to inform the participant about his/her progress
@@ -648,20 +648,20 @@ try
         trials.Response(iTrial) = response;
 
         %   5.4 Determine whether participant judged the comparison
-        %   stimulus to be lighter or darker than the standard stimulus
+        %   stimulus to be brighter or darker than the standard stimulus
         %   NOTE: Participants have to indicate which stimulus they
-        %   perceived to be darker!
+        %   perceived to be brighter!
         if strcmp(trials.StandardPos(iTrial), 'left')
             if strcmp(response, 'left')
-                judgement = 'brighter';
+                judgement = 'darker';
             else % response = 'right'
-                judgement = 'darker';
-            end
-        else % trials.BasePos(iTrial) = 'right'
-            if strcmp(response, 'left')
-                judgement = 'darker';
-            else
                 judgement = 'brighter';
+            end
+        else % trials.StandardPos(iTrial) = 'right'
+            if strcmp(response, 'left')
+                judgement = 'brighter';
+            else
+                judgement = 'darker';
             end
         end
 
