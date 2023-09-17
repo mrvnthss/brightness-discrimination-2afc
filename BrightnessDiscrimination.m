@@ -253,24 +253,34 @@ clear maxComparisonStim minComparisonStim
 
 
 %------------------------------------------------------------------
-%       POSITIONING OF SQUARES & FIXATION CROSS
+%       POSITIONING OF STIMULI & FIXATION CROSS
 %------------------------------------------------------------------
 
-% We want both squares to be centered at the center of the respective
-% half of the screen
-Config.xCenterLeft = floor(Config.xCenter / 2);
-Config.xCenterRight = floor(Config.xCenter / 2 * 3);
+% Size of the squares presented left and right to the fixation cross
+stimuliSizeVA = 6;  % in degrees of visual angle
 
-% Length of a single side of the squares in pixels (set relative to size of
-% the window so that it scales with different screen sizes)
-sizeSquare = floor(Config.widthPixels / 4);  % in pixels
+% Distance from center of fixation cross to closest edge of either square
+offsetVA = 2;  % in degrees of visual angle
+
+% Convert from degrees of visual angle to mm and pixels
+offsetMM = visualAngleToSize( ...
+    offsetVA, viewingDistanceMM, 0, "oneSided");  % in mm
+offset = round(offsetMM * Config.pixelsPerMM);    % in pixels
+
+% Convert size of squares from degrees of visual angle to pixels
+stimuliSize = round(visualAngleToSize( ...
+    stimuliSizeVA, viewingDistanceMM, offsetMM, "oneSided") ...
+    * Config.pixelsPerMM);                       % in pixels
+stimuliRect = [0, 0, stimuliSize, stimuliSize];  % in pixels
+
+% Compute distance from center of fixation cross to center of either square
+offsetToCenter = offset + floor(stimuliSize / 2);  % in pixels
 
 % Compute coordinates of both squares
-rectSquare = [0, 0, sizeSquare, sizeSquare];
-posLeftStimulus = CenterRectOnPoint(rectSquare, Config.xCenterLeft, ...
-    Config.yCenter);
-posRightStimulus = CenterRectOnPoint(rectSquare, Config.xCenterRight, ...
-    Config.yCenter);
+Stimuli.coordsLeft = CenterRectOnPoint( ...
+    stimuliRect, Config.xCenter - offsetToCenter, Config.yCenter);
+Stimuli.coordsRight = CenterRectOnPoint( ...
+    stimuliRect, Config.xCenter + offsetToCenter, Config.yCenter);
 
 % Set size and thickness of the fixation cross
 fixCrossVA = 0.65;   % in degrees of visual angle
@@ -281,7 +291,8 @@ FixCross.size = round(visualAngleToSize( ...
     fixCrossVA, viewingDistanceMM) * Config.pixelsPerMM);  % in pixels
 
 % Clean up workspace
-clear fixCrossVA rectSquare sizeSquare
+clear fixCrossVA offset offsetMM offsetToCenter offsetVA stimuliRect ...
+    stimuliSize stimuliSizeVA
 
 
 %------------------------------------------------------------------
@@ -597,8 +608,8 @@ try
 
         % STEP 4: Display stimuli
         %   4.1 Draw both stimuli
-        Screen('FillRect', windowPtr, stimulusLeft, posLeftStimulus);
-        Screen('FillRect', windowPtr, stimulusRight, posRightStimulus);
+        Screen('FillRect', windowPtr, stimulusLeft, Stimuli.coordsLeft);
+        Screen('FillRect', windowPtr, stimulusRight, Stimuli.coordsRight);
 
         %   4.2 Flip squares to screen
         [~, stimulusOnsetTime] = Screen('Flip', windowPtr, ...
