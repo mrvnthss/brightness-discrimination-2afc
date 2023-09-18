@@ -11,13 +11,14 @@ This repository contains MATLAB (The MathWorks Inc., [2023](#matlab)) code to ru
 - [Overview](#overview)
 - [Getting Started](#getting-started)
 - [Configuring the Experiment](#configuring-the-experiment)
+- [Data Analysis with *psignifit*](#data-analysis-with-psignifit)
 - [References](#references)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Overview
 
-The brightness discrimination experiment provided in this repository is designed to measure participants' ability to perceive differences in brightness between two visual stimuli. To accomplish this, participants are briefly presented with pairs of stimuli and are asked to indicate which stimulus appears darker by pressing a button.
+The brightness discrimination experiment provided in this repository is designed to measure participants' ability to perceive differences in brightness between two visual stimuli. To accomplish this, participants are briefly presented with pairs of stimuli and are asked to indicate which stimulus appears brighter by pressing a button.
 
 ### Method of Constant Stimuli
 
@@ -28,14 +29,14 @@ The experiment is conducted using the *method of constant stimuli* (2AFC paradig
 - maximum absolute difference between standard and comparison stimuli, and
 - number of times each comparison stimulus is paired with the standard stimulus.
 
-The `assert` function is used in the `BrightnessDiscrimination.m` script to enforce that ...
+The `assert` function is used in the [`BrightnessDiscrimination.m`](BrightnessDiscrimination.m) script to enforce that ...
 
 - the number of comparison stimuli is *odd*, and
 - the number of repetitions per comparison stimulus is *even*.
 
 The first precaution ensures that there are as many comparison stimuli that are brighter than the standard as there are comparison stimuli that are darker than the standard. The second precaution allows the spatial location of the standard stimulus to be counterbalanced across trials "to control for the effects of the *space error*" (Gescheider, [1997](#gescheider)).
 
-Additionally, the values of the comparison stimuli should be "chosen so that the stimulus of greatest magnitude is almost always judged greater than the standard, and so that the stimulus of least magnitude is almost always judged less than the standard" (Gescheider, [1997](#gescheider)). In the context of brightness discrimination, "greater" means "brighter" and "less" means "darker". To achieve this desired result, the maximum absolute difference between the standard and comparison stimuli must be set appropriately by the experimenter (again, please see [Configuring the Experiment](#configuring-the-experiment) for details). To assist in choosing this value, the `plotStimuli.m` function can be used to visualize the comparison stimuli based on the parameters chosen to (potentially) run the experiment. The next figure shows a sample output produced by the `plotStimuli.m` function:
+Additionally, the values of the comparison stimuli should be "chosen so that the stimulus of greatest magnitude is almost always judged greater than the standard, and so that the stimulus of least magnitude is almost always judged less than the standard" (Gescheider, [1997](#gescheider)). In the context of brightness discrimination, "greater" means "brighter" and "less" means "darker". To achieve this desired result, the maximum absolute difference between the standard and comparison stimuli must be set appropriately by the experimenter (again, please see [Configuring the Experiment](#configuring-the-experiment) for details). To assist in choosing this value, the [`plotStimuli.m`](plotStimuli.m) function can be used to visualize the comparison stimuli based on the parameters chosen to (potentially) run the experiment. The next figure shows a sample output produced by the [`plotStimuli.m`](plotStimuli.m) function:
 
 <div align="center">
     <img src="figures/comparison-stimuli.png" alt="comparison-stimuli" width="600">
@@ -70,7 +71,7 @@ As indicated, the presentation duration of the fixation cross (prior to the pres
 
 Right now, there is *no* time limit for a response after the stimuli have been presented. Hence, the time participants take to respond is currently *not* being collected either.
 
-After the experiment is completed, all data are saved to a CSV-file. Code to analyze this data will be provided soon.
+After the experiment is completed, all data are saved to a CSV-file. Collected data can be analyzed via the [`fitData.m`](fitData.m) script which uses the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox developed by Schütt et al. ([2016](#psignifit)).
 
 ## Getting Started
 
@@ -81,7 +82,7 @@ Follow these steps to clone the repository and run the project on your local mac
 - MATLAB with Psychtoolbox installed. Visit [Psychtoolbox](http://psychtoolbox.org/) for installation instructions.
 - Psignifit 4 toolbox installed. Visit [wichmann-lab/psignifit/wiki/Install](https://github.com/wichmann-lab/psignifit/wiki/Install) for installation instructions.
 
-### Clone the repository
+### Clone the Repository
 
 1. Open a terminal or command prompt on your local machine.
 
@@ -95,13 +96,13 @@ git clone https://github.com/mrvnthss/brightness-discrimination-2afc
 
 1. Open MATLAB and navigate to the cloned repository's directory.
 
-2. Run the `BrightnessDiscrimination.m` script to start the experiment.
+2. Run the [`BrightnessDiscrimination.m`](BrightnessDiscrimination.m) script to start the experiment.
 
 ## Configuring the Experiment
 
 ### Setting Experiment Parameters
 
-As mentioned before, there are several parameters that can be changed in the `BrightnessDiscrimination.m` script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
+As mentioned before, there are several parameters that can be changed in the [`BrightnessDiscrimination.m`](BrightnessDiscrimination.m) script that alter the experiment. They can be found in the *Configuration of Experiment* section of the script.
 
 #### Experimental Design
 
@@ -113,7 +114,7 @@ As mentioned before, there are several parameters that can be changed in the `Br
 
 - `Stimuli.nReps`: Determines how often each pair of comparison stimulus and standard stimulus is shown to the participant. This must be an even number to allow for counterbalancing of the spatial location of the standard stimulus.
 
-#### Timing parameters
+#### Timing Parameters
 
 - `Duration.waitSecs`: Controls the delay between the pressing of the space bar to start a trial and the presentation of the fixation cross.
 
@@ -125,17 +126,53 @@ As mentioned before, there are several parameters that can be changed in the `Br
 
 #### Other
 
+- `viewingDistanceMM`: The orthogonal distance (in mm) from the eye of the participant to the screen used to display the stimuli. This value is used to convert stimuli sizes from degrees of visual angle to number of pixels on the screen. The screen resolution as well as the physical size of the display (in mm) necessary for this conversion are provided through a call to the [`configurePsych.m`](configurePsych.m) function.
+
 - `Progress.thresholdPct`: Controls when (i.e., after which fraction of total trials) participants are informed about their progress. Thereby also splitting trials into blocks.
 
 ### Configuring Psychtoolbox
 
-The experiment code (i.e., the `BrightnessDiscrimination.m` script) calls the `configurePsych.m` function to generate a struct called `Config`. The parameters of this struct are then used to set up a new Psychtoolbox session to run the experiment. You can change the way this session is set up by passing the appropriate arguments to the `configurePsych.m` function:
+The experiment code (i.e., the [`BrightnessDiscrimination.m`](BrightnessDiscrimination.m) script) calls the [`configurePsych.m`](configurePsych.m) function to generate a struct called `Config`. The parameters of this struct are then used to set up a new Psychtoolbox session to run the experiment. You can change the way this session is set up by passing the appropriate arguments to the [`configurePsych.m`](configurePsych.m) function:
 
 - `whichScreen`: Either 'main' or 'max'. Passing 'main' will set `Config.screenNumber` to 0 (i.e., main screen), 'max' will set it to `max(Screen('Screens'))` (i.e., screen detected last). Defaults to 'main'.
 
 - `skipTest`: Either 0 or 1. Assigned to the field `Config.skipTest` which is used to determine whether synchronization tests are to be skipped. A value of 1 will skip the internal synchronization tests, a value of 0 will not. Defaults to 1.
 
 - `debugMode`: Either `true` or `false`. If set to `true` (and `whichScreen` is set to 'main'), Psychtoolbox opens a window positioned in the top-left that only covers 25 % of the screen. Defaults to `false`.
+
+## Data Analysis with *psignifit*
+
+Collected data can be analyzed via the [`fitData.m`](fitData.m) script. Essentially, this script uses the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox developed by Schütt et al. ([2016](#psignifit)) to fit psychometric curves to the data. This is done individually for each participant as well as for data pooled across participants.
+
+### Loading Data
+
+Since the experiment can be run with different parameters (see [Configuring the Experiment](#configuring-the-experiment) for details), different CSV-files in the [`data/`](data/) directory may contain data collected in runs that used differing parameters. Hence, before performing the data analysis, you have to set these parameters to determine which datasets to load. This is done in the *Set Parameters for Data Loading* section at the top of the script.
+
+### *psignifit* Parameters
+
+To perform the fitting of a psychometric curve to data collected in experiments, users have to configure a few parameters before running the analysis. For a brief introduction into the basic usage of [psignifit](https://github.com/wichmann-lab/psignifit), please check [wichmann-lab/psignifit/wiki/Basic-Usage](https://github.com/wichmann-lab/psignifit/wiki/Basic-Usage).
+
+The `fitData.m` script currently uses the following parameters to perform the fitting:
+
+- `Options.sigmoidName = 'norm'`: A cumulative Gaussian is used as the sigmoid.
+
+- `Options.expType = 'YesNo'`: This might be confusing at first. Even though the experiment is conducted using a 2AFC paradigm, we do *not* choose `'2AFC'` as `Options.expType`. This is simply because `Options.expType = '2AFC'` fixes the lower asymptote to $0.5$. On the contrary, `Options.expType = 'YesNo'` leaves both asymptotes free to vary. Since we want to plot the proportion of "brighter" responses against the values of the comparison stimuli, this is what we are after. (Had we wanted to plot the proportion of correct responses against the absolute value of the difference between standard and comparison stimuli, `Options.expType = '2AFC'` would have been the way to go.) For details, please check [wichmann-lab/psignifit/wiki/Experiment-Types](https://github.com/wichmann-lab/psignifit/wiki/Experiment-Types).
+
+- `Options.widthalpha = 0.25`: This controls the way the *width* of the psychometric function is computed. The width of a psychometric function as computed by [psignifit](https://github.com/wichmann-lab/psignifit) is defined as $\text{width} = \Psi^{-1}(1-\alpha) - \Psi^{-1}(\alpha)$, where $\Psi^{-1}$ is the inverse of the fitted psychometric function. The choice of setting $\alpha$ to $0.25$ is based on the remarks in Chapter 3 of Gescheider ([1997](#gescheider)).
+
+### Plotting Parameters
+
+Further, there are several parameters that control the appearance of the plots produced by the `plotPsych` command of the [psignifit](https://github.com/wichmann-lab/psignifit) toolbox. These can also be found in the *Configure psignifit Parameters* section of the [`fitData.m`](fitData.m) script. For further details regarding these parameters, please check [wichmann-lab/psignifit/wiki/Plot-Functions](https://github.com/wichmann-lab/psignifit/wiki/Plot-Functions).
+
+### Fitting and Data Analysis
+
+Based on the configuration of the parameters described in the preceding sections, the appropriate datasets are automatically loaded from the [`data/`](data/) directory. These datasets are then preprocessed and converted into the format that is expected by the *psignifit* function. A psychometric function is fitted to the data of each individual participant as well as to the data pooled across all participants. For each fit, we also compute the following measures:
+
+- **Point of subjective equality (PSE)**: The *point of subjective equality* is simply $\Psi^{-1}(0.5)$, i.e., the value corresponding to $0.5$ on the fitted sigmoid. This value may deviate from the value $\text{St}$ of the standard stimulus. The resulting difference is known as the *constant error* $\text{CE} = \text{PSE} - \text{St}$.
+
+- **Difference threshold**: We report the average difference threshold $\text{DL}_{\text{avg}}$ as defined in Chapter 3 of Gescheider ([1997](#gescheider)). The average difference threshold is simply the average of the upper difference threshold $\text{DL}_{u} = \Psi^{-1}(0.75) - \text{PSE}$ and the lower difference threshold $\text{DL}_{l} = \text{PSE} - \Psi^{-1}(0.25)$. Thus, the average difference threshold $\text{DL}_{\text{avg}}$ is simply half the width of the psychometric function $\Psi$ and as such is inversely related to the slope of the psychometric function, which is often used as a measure of sensitivity. Of course, a lower difference threshold (or a steeper/greater slope) corresponds to a greater sensitivity and vice versa.
+
+Confidence intervals are also computed by the *psignifit* function for both of the two values just mentioned and the computed values are stored in the variables `thresholdCIlower`, `thresholdCIupper`, `widthCIlower`, and `widthCIupper`. However, as of now, these values are not used for further analysis.
 
 ## References
 
