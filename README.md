@@ -174,6 +174,12 @@ Based on the configuration of the parameters described in the preceding sections
 
 Confidence intervals are also computed by the *psignifit* function for both of the two values just mentioned and the computed values are stored in the variables `thresholdCIlower`, `thresholdCIupper`, `widthCIlower`, and `widthCIupper`. However, as of now, these values are not used for further analysis.
 
+<div align="center">
+    <img src="figures/sample-01.png" alt="sample-01" width="600">
+    <p>Sample output of the <a href="fitData.m"><tt>fitData.m</tt></a> script. <b>Simulated</b> data.</p>
+</div>
+<br>
+
 ## References
 
 - <a id='brainard-ptb'></a> Brainard, D. H. (1997). The Psychophysics Toolbox. *Spatial vision, 10*(4), 433–436. [https://doi.org/10.1163/156856897X00357](https://doi.org/10.1163/156856897X00357)
