@@ -76,9 +76,9 @@ rng('shuffle')
 % to 9, and 'Stimuli.maxDifference' to 0.1 will lead to the following
 % values being used for the comparison stimuli:
 %   [0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6]
-Stimuli.standardStim = 0.5;   % on a scale from 0 to 1
+Stimuli.standardStim = 0.5;    % on a scale from 0 to 1
 Stimuli.nComparisonStim = 9;
-Stimuli.maxDifference = 0.025;  % on a scale from 0 to 1
+Stimuli.maxDifference = 0.05;  % on a scale from 0 to 1
 
 % 'Stimuli.nReps' controls how many times each pair of standard &
 % comparison stimulus is shown to the participant
@@ -431,9 +431,9 @@ end
 % Create filename to store the results of the experiment
 t = datetime("now", "Format", "yyyy-MM-dd");
 filePattern = Participant.id + "_" ...
-    + sprintf('%02dSt_', Stimuli.standardStim * 100) ...
+    + sprintf('%03dSt_', Stimuli.standardStim * 1000) ...
     + sprintf('%02dnCo_', Stimuli.nComparisonStim) ...
-    + sprintf('%02dMaxDiff_', Stimuli.maxDifference * 100) ...
+    + sprintf('%03dMaxDiff_', Stimuli.maxDifference * 1000) ...
     + sprintf('%02dReps_', Stimuli.nReps) + string(t) + "_v%d";
 filePattern = fullfile("data", filePattern + ".csv");
 
