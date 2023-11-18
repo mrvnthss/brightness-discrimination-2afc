@@ -12,6 +12,7 @@ This repository contains MATLAB (The MathWorks Inc., [2023](#matlab)) code to ru
 - [Getting Started](#getting-started)
 - [Configuring the Experiment](#configuring-the-experiment)
 - [Data Analysis with *psignifit*](#data-analysis-with-psignifit)
+- [Languages and Tools](#languages-and-tools)
 - [References](#references)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
@@ -179,6 +180,17 @@ Confidence intervals are also computed by the *psignifit* function for both of t
     <p>Sample output of the <a href="fitData.m"><tt>fitData.m</tt></a> script. <b>Simulated</b> data.</p>
 </div>
 <br>
+
+## Languages and Tools
+
+<p align="left">
+  <a href="https://www.mathworks.com/" target="_blank" rel="noreferrer">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" alt="matlab" width="40" height="40"/>
+  </a>
+  <a href="https://www.psychtoolbox.net" target="_blank" rel="noreferrer">
+    <img src="https://www.psychtoolbox.net/wp-content/uploads/2022/03/no_background_purple_text.png" alt="pytorch" height="40"/>
+  </a>
+</p>
 
 ## References
 
