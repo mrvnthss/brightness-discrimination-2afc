@@ -55,9 +55,8 @@ The following figure illustrates the flow of a single trial:
 <div align="center">
     <img src="figures/trial-structure.png" alt="trial-structure" width="800">
     <p>Schematic flow of a single trial.<br>
-        Size of stimuli has been increased for demonstration purposes.</p>
+    Size of stimuli has been increased for demonstration purposes.</p>
 </div>
-<br>
 
 Additionally, here is a dynamic preview[^1] of the experiment:
 
