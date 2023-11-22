@@ -53,7 +53,7 @@ Participants complete multiple trials that are split up into separate blocks. Be
 The following figure illustrates the flow of a single trial:
 
 <div align="center">
-    <img src="figures/trial-structure.png" alt="trial-structure" width="800">
+    <img src="figures/trial-structure.png" alt="trial-structure" width="700">
     <p>Schematic flow of a single trial.<br>
     Size of stimuli has been increased for demonstration purposes.</p>
 </div>
@@ -61,7 +61,7 @@ The following figure illustrates the flow of a single trial:
 Additionally, here is a dynamic preview[^1] of the experiment:
 
 <div align="center">
-    <img src="figures/experiment-demo.gif" alt="trial-structure" width="700">
+    <img src="figures/experiment-demo.gif" alt="trial-structure" width="600">
 </div>
 <br>
 
