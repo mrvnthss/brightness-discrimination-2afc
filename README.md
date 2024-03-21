@@ -215,18 +215,18 @@ The [Gifski](https://gif.ski) app was used to convert screen capture videos into
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ### Permissions
 
 You are free to:
 
-- **Use:** Copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the materials.
+- **Use**: Copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the materials.
 
 ### Under the Following Terms
 
-- **No Attribution Required:** The MIT License does not require you to provide attribution when using or distributing the code.
+- **No Attribution Required**: The MIT License does not require you to provide attribution when using or distributing the code.
 
-- **No Warranty:** The code is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+- **No Warranty**: The code is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
 
-- **Limitation of Liability:** In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the code or the use or other dealings in the code.
+- **Limitation of Liability**: In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the code or the use or other dealings in the code.
