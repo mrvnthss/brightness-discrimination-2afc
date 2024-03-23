@@ -215,18 +215,18 @@ The [Gifski](https://gif.ski) app was used to convert screen capture videos into
 
 ## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**. The MIT License is a permissive free software license that offers significant freedom to use, modify, distribute, and sell the software and its derivatives, with minimal restrictions. Key points of the MIT License include:
 
-### Permissions
+- **Permission to Use**: You are free to use the software for any purpose, including commercial applications.
 
-You are free to:
+- **Permission to Modify**: You have the right to modify the software in any way you see fit.
 
-- **Use**: Copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the materials.
+- **Permission to Distribute**: You can distribute the software and your modifications to anyone, under the same license terms.
 
-### Under the Following Terms
+- **Permission to Sublicense**: You can grant a sublicense to modify and distribute the software to others under your own terms.
 
-- **No Attribution Required**: The MIT License does not require you to provide attribution when using or distributing the code.
+- **No Warranty**: The software is provided "as is", without warranty of any kind.
 
-- **No Warranty**: The code is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+To comply with the MIT License, you must include the original copyright notice and the license text with any substantial portions of the software you distribute. The simplicity of the MIT License promotes open and unrestricted adoption and reuse of software.
 
-- **Limitation of Liability**: In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the code or the use or other dealings in the code.
+For more detailed information, please review the full [LICENSE](LICENSE) text.
